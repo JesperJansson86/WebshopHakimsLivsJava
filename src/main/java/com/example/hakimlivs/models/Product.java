@@ -24,7 +24,7 @@ public class Product {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id = 0;
+    private Long id;
 
     /**
      * namnet på produkten
