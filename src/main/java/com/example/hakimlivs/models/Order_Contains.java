@@ -12,12 +12,17 @@ import lombok.NonNull;
  **/
 
 @Data
+@Entity
 public class Order_Contains {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
     private Orders order;
-    @NonNull
+
+    @ManyToOne
     private Product product;
     private int productAmount;
 

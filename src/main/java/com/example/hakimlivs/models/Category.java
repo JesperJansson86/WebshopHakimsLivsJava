@@ -1,7 +1,7 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import lombok.NonNull;
+import javax.persistence.*;
 
 /**
  * Created by Lukas Aronsson
@@ -11,9 +11,12 @@ import lombok.NonNull;
  * Copyright: MIT
  **/
 @Data
+@Entity
 public class Category {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String category;
 }

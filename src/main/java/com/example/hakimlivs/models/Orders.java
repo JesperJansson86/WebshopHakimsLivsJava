@@ -13,14 +13,18 @@ import java.time.LocalDate;
  * Copyright: MIT
  **/
 @Data
+@Entity
 public class Orders {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+     
     private LocalDate orderDate;
-    @NonNull
+
+    @ManyToOne
     private OrderStatus orderStatus;
-    @NonNull
+    @ManyToOne
     private Customer customer;
 
 }

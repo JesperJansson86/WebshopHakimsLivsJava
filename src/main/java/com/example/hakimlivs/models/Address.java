@@ -13,7 +13,7 @@ import org.springframework.lang.NonNull;
  **/
 
 @Data
-
+@Entity
 public class Address {
 
     @NonNull

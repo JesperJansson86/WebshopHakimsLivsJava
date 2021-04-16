@@ -15,26 +15,29 @@ import lombok.NonNull;
  * Objekt representation av Product tabellen i från databasen
  */
 @Data
+@Entity
 public class Product {
 
     /**
      * idn av produkten (primary key från databasen)
      * Om värdet inte sätts så är dens standard värdet 0
      */
-    private int id = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id = 0;
 
     /**
      * namnet på produkten
      * Om värdet inte sätts så är dens standard värdet ""
      */
-    @NonNull
+     
     private String title = "";
 
     /**
      * beskrivning av produkten
      * Om värdet inte sätts så är dens standard värdet ""
      */
-    @NonNull
+     
     private String description = "";
 
     /**
@@ -64,19 +67,22 @@ public class Product {
     /**
      * Märket som har skapat eller paketerat produkten
      */
-    @NonNull
+
+    @ManyToOne
     private Brand brand;
 
     /**
      * Kategorin som produkten är en del av
      */
-    @NonNull
+
+    @ManyToOne
     private Category category;
 
     /**
      * Enheten som produkten är räknad från
      */
-    @NonNull
+
+    @ManyToOne
     private Unit unit;
 
     /**

@@ -11,10 +11,13 @@ import lombok.NonNull;
  * Copyright: MIT
  **/
 @Data
+@Entity
 public class AreaCode {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String areaCode;
     @NonNull
     private City city;

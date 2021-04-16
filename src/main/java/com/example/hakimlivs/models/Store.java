@@ -1,7 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import lombok.NonNull;
+
+import javax.persistence.*;
 
 /**
  * Created by Lukas Aronsson
@@ -12,16 +13,20 @@ import lombok.NonNull;
  **/
 
 @Data
+@Entity
 public class Store {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+     
     private String phone;
-    @NonNull
+     
     private String email;
-    @NonNull
+     
     private String openHours;
-    @NonNull
+
+    @ManyToOne
     private Address address;
 
 }

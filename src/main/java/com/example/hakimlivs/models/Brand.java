@@ -11,9 +11,12 @@ import lombok.NonNull;
  * Copyright: MIT
  */
 @Data
+@Entity
 public class Brand {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String brand;
 }

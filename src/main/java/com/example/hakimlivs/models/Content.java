@@ -12,9 +12,12 @@ import lombok.NonNull;
  **/
 
 @Data
+@Entity
 public class Content {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String requirement;
 }

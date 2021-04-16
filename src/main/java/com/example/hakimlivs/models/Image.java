@@ -11,11 +11,15 @@ import lombok.NonNull;
  * Copyright: MIT
  **/
 @Data
+@Entity
 public class Image {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+     
     private String image;
-    @NonNull
+
+    @ManyToOne
     private Product product;
 }

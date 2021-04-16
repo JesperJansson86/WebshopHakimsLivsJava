@@ -12,10 +12,13 @@ import lombok.NonNull;
  **/
 
 @Data
+@Entity
 public class Customer {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String firstName;
     @NonNull
     private String lastName;

@@ -12,9 +12,12 @@ import lombok.NonNull;
  **/
 
 @Data
+@Entity
 public class City {
 
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String city;
 }
