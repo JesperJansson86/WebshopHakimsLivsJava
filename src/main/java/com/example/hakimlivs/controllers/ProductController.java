@@ -38,9 +38,9 @@ public class ProductController {
             @RequestParam int inventory,
             @RequestParam int quantity,
             @RequestParam int size,
-            @RequestParam long brand,
-            @RequestParam long category,
-            @RequestParam long unit,
+            @RequestParam String brand,
+            @RequestParam String category,
+            @RequestParam Long unit,
             @RequestParam boolean visibility
     ){
         Product p = new Product();
@@ -50,8 +50,25 @@ public class ProductController {
         p.setInventory(inventory);
         p.setQuantity(quantity);
         p.setSize(size);
-        p.setBrand(brandRepo.findById(brand).get());
-        p.setCategory(categoryRepo.findById(category).get());
+
+        if(brand.equals(brandRepo.findByName(brand).get(0).getBrand())){
+            p.setBrand(brandRepo.findByName(brand).get(0));
+        }
+        else{
+                    Brand b = new Brand();
+                    b.setBrand(brand);
+                    p.setBrand(b);
+        }
+
+        if(category.equals(categoryRepo.findByName(category).get(0).getCategory())){
+            p.setCategory(categoryRepo.findByName(category).get(0));
+        }
+        else{
+            Category c = new Category();
+            c.setCategory(category);
+            p.setCategory(c);
+        }
+
         p.setUnit(unitRepo.findById(unit).get());
         p.setVisibility(visibility);
 
@@ -80,7 +97,7 @@ public class ProductController {
     public String updateProduct(@RequestBody Product p){
 
         if(p.getId().equals(getProductById(p.getId()).getId())){
-            addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getId(), p.getCategory().getId(), p.getUnit().getId(), p.isVisibility());
+            addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getBrand(), p.getCategory().getCategory(), p.getUnit().getId(), p.isVisibility());
             return "Product created";
         }
         else{
