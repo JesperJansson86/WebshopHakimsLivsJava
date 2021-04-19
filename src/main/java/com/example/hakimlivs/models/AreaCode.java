@@ -13,6 +13,6 @@ public class AreaCode {
     private String areaCode;
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "cityid")
     private City city;
 }

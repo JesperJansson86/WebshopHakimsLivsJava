@@ -5,6 +5,8 @@ import com.example.hakimlivs.models.AreaCode;
 import com.example.hakimlivs.models.City;
 import com.example.hakimlivs.models.Customer;
 import com.example.hakimlivs.repositories.AddressRepository;
+import com.example.hakimlivs.repositories.AreaCodeRepository;
+import com.example.hakimlivs.repositories.CityRepository;
 import com.example.hakimlivs.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ public class CustomerController {
 @Autowired
     CustomerRepository customerRepository;
 @Autowired
-    AddressRepository addressrepo;
+    AddressRepository addressRepository;
 @Autowired
-AddressRepository areaCodeRepository;
+AreaCodeRepository areaCodeRepository;
+@Autowired
+    CityRepository cityRepository;
 
     @GetMapping(path = "/add")
     public String addCustomer(
@@ -38,20 +42,35 @@ AddressRepository areaCodeRepository;
         customer.setPassword(password);
         customer.setLoyalCustomer(loyalCustomer);
         customer.setAdminStatus(adminStatus);
-        Address a = new Address();
-        a.setAddress(address);
-        AreaCode acode = new AreaCode();
-        acode.setAreaCode(areaCode);
-        City c   = new City();
-        c.setCity(city);
-        acode.setCity(c);
-        a.setAreaCode(acode);
-
-
-        customer.setAddress(a);
-       
+        Address tempAddress = new Address();
+        AreaCode tempAreaCode = new AreaCode();
+        City tempCity   = new City();
+        if(cityRepository.findCityBycity(city)==null){
+            tempCity.setCity(city);
+            cityRepository.save(tempCity);
+        }
+        if (areaCodeRepository.findAreaCodeByareaCode(areaCode)==null){
+            tempAreaCode.setAreaCode(areaCode);
+            areaCodeRepository.save(tempAreaCode);
+        }
+        if (addressRepository.findAddressByAddress(address)==null){
+            tempAddress.setAddress(address);
+            addressRepository.save(tempAddress);
+        }
+        customer.setAddress(addressRepository.findAddressByAddress(address));
+        tempCity = cityRepository.findCityBycity(city);
+        tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(areaCode);
+        tempAddress= addressRepository.findAddressByAddress(address);
+        tempAreaCode.setCity(tempCity);
+        tempAddress.setAreaCode(tempAreaCode);
+        customer.setAddress(tempAddress);
+        cityRepository.save(tempCity);
+        areaCodeRepository.save(tempAreaCode);
+        addressRepository.save(tempAddress);
         customerRepository.save(customer);
-        addressrepo.save(a);
+
+
+
         
         return String.format("Kunden %s %s has been added", firstname, lastname);
     }

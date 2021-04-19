@@ -25,7 +25,7 @@ public class AddressController {
 
             Address a = new Address();
             a.setAddress(address);
-            a.setAreaCode(areaCodeRepository.findAreaCodeByAreaCode(areaCode));
+            a.setAreaCode(areaCodeRepository.findAreaCodeByareaCode(areaCode));
             return String.format("%s %s has been added", address, areaCode);
         }
 
