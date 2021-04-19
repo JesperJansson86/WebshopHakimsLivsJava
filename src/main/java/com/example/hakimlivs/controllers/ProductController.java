@@ -36,7 +36,7 @@ public class ProductController {
         p.setPrice(price);
         p.setInventory(inventory);
         p.setQuantity(quantity);
-        c.setAddress(addressrepo.findById(address).get());
+
 
         return String.format("%s has been added", title);
     }
