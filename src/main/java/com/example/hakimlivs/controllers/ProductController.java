@@ -1,10 +1,12 @@
 package com.example.hakimlivs.controllers;
 
 import com.example.hakimlivs.models.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.hakimlivs.repositories.BrandRepository;
+import com.example.hakimlivs.repositories.CategoryRepository;
+import com.example.hakimlivs.repositories.ProductRepository;
+import com.example.hakimlivs.repositories.UnitRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by David Hedman <br>
@@ -17,6 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = ("/api/product"))
 public class ProductController {
 
+    @Autowired
+    private ProductRepository productRepo;
+    @Autowired
+    private BrandRepository brandRepo;
+    @Autowired
+    private CategoryRepository categoryRepo;
+    @Autowired
+    private UnitRepository unitRepo;
+
+
+
     @GetMapping(path = "/add")
     public String addProduct(
             @RequestParam String title,
@@ -25,9 +38,9 @@ public class ProductController {
             @RequestParam int inventory,
             @RequestParam int quantity,
             @RequestParam int size,
-            @RequestParam Brand brand,
-            @RequestParam Category category,
-            @RequestParam Unit unit,
+            @RequestParam long brand,
+            @RequestParam long category,
+            @RequestParam long unit,
             @RequestParam boolean visibility
     ){
         Product p = new Product();
@@ -36,8 +49,55 @@ public class ProductController {
         p.setPrice(price);
         p.setInventory(inventory);
         p.setQuantity(quantity);
-
+        p.setSize(size);
+        p.setBrand(brandRepo.findById(brand).get());
+        p.setCategory(categoryRepo.findById(category).get());
+        p.setUnit(unitRepo.findById(unit).get());
+        p.setVisibility(visibility);
 
         return String.format("%s has been added", title);
+
     }
+
+    @GetMapping(path ="/byId")
+    public Product getProductById(@RequestParam Long id){
+        return productRepo.findById(id).get();
+    }
+
+    @GetMapping(path ="/deleteById")
+    public String deleteProductById(@RequestParam Long id){
+        productRepo.deleteById(id);
+
+        return String.format("Product with id:%s has been deleted", id);
+    }
+
+    @GetMapping(path = "/all")
+    public Iterable<Product> getAllProducts(){
+        return productRepo.findAll();
+    }
+
+    @PostMapping("/update")
+    public String updateProduct(@RequestBody Product p){
+
+        if(p.getId().equals(getProductById(p.getId()).getId())){
+            addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getId(), p.getCategory().getId(), p.getUnit().getId(), p.isVisibility());
+            return "Product created";
+        }
+        else{
+            Product updateP = getProductById(p.getId());
+            updateP.setTitle(p.getTitle());
+            updateP.setDescription(p.getDescription());
+            updateP.setInventory(p.getInventory());
+            updateP.setQuantity(p.getQuantity());
+            updateP.setSize(p.getSize());
+            updateP.setBrand(brandRepo.findById(p.getBrand().getId()).get());
+            updateP.setCategory(categoryRepo.findById(p.getCategory().getId()).get());
+            updateP.setUnit(unitRepo.findById(p.getUnit().getId()).get());
+            updateP.setVisibility(p.isVisibility());
+
+            return "Product updated";
+        }
+
+    }
+
 }
