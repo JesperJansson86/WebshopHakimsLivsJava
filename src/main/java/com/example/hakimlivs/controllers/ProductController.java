@@ -51,8 +51,8 @@ public class ProductController {
         p.setQuantity(quantity);
         p.setSize(size);
 
-        if(brand.equals(brandRepo.findByName(brand).get(0).getBrand())){
-            p.setBrand(brandRepo.findByName(brand).get(0));
+        if(brand.equals(brandRepo.findByBrand(brand).get().getBrand())){
+            p.setBrand(brandRepo.findByBrand(brand).get());
         }
         else{
                     Brand b = new Brand();
@@ -60,8 +60,8 @@ public class ProductController {
                     p.setBrand(b);
         }
 
-        if(category.equals(categoryRepo.findByName(category).get(0).getCategory())){
-            p.setCategory(categoryRepo.findByName(category).get(0));
+        if(category.equals(categoryRepo.findCategoryBycategory(category).get().getCategory())){
+            p.setCategory(categoryRepo.findCategoryBycategory(category).get());
         }
         else{
             Category c = new Category();
