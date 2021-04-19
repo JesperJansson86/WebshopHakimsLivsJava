@@ -23,7 +23,7 @@ public class Address {
     private Long id;
     private String address;
     @ManyToOne (cascade = {CascadeType.ALL})
-    @JoinColumn(name = "areacode_id")
+    @JoinColumn(name = "areacodeid")
     private AreaCode areaCode;
 
     public Address(String address, AreaCode areaCode) {

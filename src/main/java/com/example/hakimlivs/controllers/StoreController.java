@@ -26,7 +26,7 @@ public class StoreController {
     AddressRepository addressRepository;
 
     @Autowired
-    AddressRepository areaCodeRepository;
+    AddressRepository areaCodeRepository; // probably unnecessary
 
     @GetMapping(path = "/add")
     public String addStore(
