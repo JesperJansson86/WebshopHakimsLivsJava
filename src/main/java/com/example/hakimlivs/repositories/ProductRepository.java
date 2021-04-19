@@ -4,4 +4,5 @@ import com.example.hakimlivs.models.Product;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
+    public boolean hasImageByName(String s);
 }
