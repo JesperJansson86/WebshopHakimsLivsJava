@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     public Optional<Category> findCategoryBycategory(String category);
 
-   // List<Category> findByName(String name);
+   public boolean existsByCategory (String category);
 }

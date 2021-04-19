@@ -17,4 +17,6 @@ import java.util.Optional;
 public interface BrandRepository extends CrudRepository<Brand, Long> {
 
     public Optional<Brand> findByBrand(String brand);
+
+    public boolean existsByBrand(String brand);
 }
