@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /*
  * Created by Lukas Aronsson
@@ -91,8 +92,9 @@ public class Product {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-
-    private String image;
+    @OneToMany (cascade = {CascadeType.ALL})
+    @JoinColumn(name ="image_id")
+    private List<Image> imageList;
 
     /**
      * Boolean som sätter om produkten ska vara synlig eller inte
