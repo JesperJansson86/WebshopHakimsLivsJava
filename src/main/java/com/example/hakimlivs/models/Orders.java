@@ -1,9 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import lombok.NonNull;
-
 import java.time.LocalDate;
+import javax.persistence.*;
 
 /**
  * Created by Lukas Aronsson

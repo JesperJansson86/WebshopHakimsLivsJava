@@ -1,7 +1,7 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import lombok.NonNull;
+import javax.persistence.*;
 
 /**
  * Created by Lukas Aronsson
@@ -20,16 +20,17 @@ public class Customer {
     private Long id;
 
     private String firstName;
-    @NonNull
+
     private String lastName;
-    @NonNull
+
+    @ManyToOne
     private Address address;
-    @NonNull
+
     private String email;
-    @NonNull
+
     private String Password;
-    @NonNull
+
     private Boolean loyalCustomer;
-    @NonNull
+
     private Boolean adminStatus;
 }

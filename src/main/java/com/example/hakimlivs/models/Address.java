@@ -1,8 +1,7 @@
 package com.example.hakimlivs.models;
 
-
 import lombok.Data;
-import org.springframework.lang.NonNull;
+import javax.persistence.*;
 
 /**
  * Created by Lukas Aronsson
@@ -16,11 +15,14 @@ import org.springframework.lang.NonNull;
 @Entity
 public class Address {
 
-    @NonNull
-    private int id;
-    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String address;
-    @NonNull
+
+    @ManyToOne
+    @JoinColumn(name = "areacode_id")
     private AreaCode areaCode;
 
 }

@@ -1,7 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import lombok.NonNull;
+import javax.persistence.*;
+
 
 /**
  * Created by Lukas Aronsson
@@ -19,6 +20,8 @@ public class AreaCode {
     private Long id;
 
     private String areaCode;
-    @NonNull
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
     private City city;
 }

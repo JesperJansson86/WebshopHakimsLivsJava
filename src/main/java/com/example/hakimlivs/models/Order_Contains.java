@@ -1,7 +1,7 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import lombok.NonNull;
+import javax.persistence.*;
 
 /**
  * Created by Lukas Aronsson
@@ -24,6 +24,7 @@ public class Order_Contains {
 
     @ManyToOne
     private Product product;
+
     private int productAmount;
 
 }
