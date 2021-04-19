@@ -1,7 +1,12 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import javax.persistence.*;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by Lukas Aronsson
@@ -13,6 +18,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class City {
 
     @Id
@@ -20,4 +26,8 @@ public class City {
     private Long id;
 
     private String city;
+
+    public City(String city) {
+        this.city = city;
+    }
 }
