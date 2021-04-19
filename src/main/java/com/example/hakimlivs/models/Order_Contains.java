@@ -30,4 +30,9 @@ public class Order_Contains {
 
     private int productAmount;
 
+    public Order_Contains(Orders order, Product product, int productAmount) {
+        this.order = order;
+        this.product = product;
+        this.productAmount = productAmount;
+    }
 }

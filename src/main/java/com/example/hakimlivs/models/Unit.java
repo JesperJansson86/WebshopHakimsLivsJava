@@ -25,4 +25,8 @@ public class Unit {
      
     private String longUnit;
 
+    public Unit(String unit, String longUnit) {
+        this.unit = unit;
+        this.longUnit = longUnit;
+    }
 }

@@ -23,4 +23,8 @@ public class Content {
     private Long id;
 
     private String requirement;
+
+    public Content(String requirement) {
+        this.requirement = requirement;
+    }
 }

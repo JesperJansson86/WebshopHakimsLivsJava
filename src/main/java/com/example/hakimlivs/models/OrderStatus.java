@@ -23,4 +23,8 @@ public class OrderStatus {
      
     private String orderStatus;
 
+    public OrderStatus(String orderStatus){
+        this.orderStatus = orderStatus;
+    }
+
 }

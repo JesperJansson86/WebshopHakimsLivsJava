@@ -25,4 +25,9 @@ public class Image {
 
     @ManyToOne
     private Product product;
+
+    public Image(String image, Product product) {
+        this.image = image;
+        this.product = product;
+    }
 }

@@ -22,4 +22,8 @@ public class Brand {
     private Long id;
 
     private String brand;
+
+    public Brand(String brand) {
+        this.brand = brand;
+    }
 }

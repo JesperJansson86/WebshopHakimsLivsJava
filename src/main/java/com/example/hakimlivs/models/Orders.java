@@ -37,4 +37,11 @@ public class Orders {
     @JoinColumn(name = "adress_id",referencedColumnName = "id")
     private Address deliveryAddress;
 
+    public Orders(LocalDate orderDate, OrderStatus orderStatus, Customer customer, DeliveryOption deliveryOption, Address deliveryAddress) {
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
+        this.customer = customer;
+        this.deliveryOption = deliveryOption;
+        this.deliveryAddress = deliveryAddress;
+    }
 }

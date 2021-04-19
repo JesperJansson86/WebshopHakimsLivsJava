@@ -33,4 +33,8 @@ public class DeliveryOption {
      */
     private double deliveryCost;
 
+    public DeliveryOption(String deliveryType, double deliveryCost) {
+        this.deliveryType = deliveryType;
+        this.deliveryCost = deliveryCost;
+    }
 }
