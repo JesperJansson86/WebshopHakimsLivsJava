@@ -36,8 +36,13 @@ public class ProductController {
         p.setPrice(price);
         p.setInventory(inventory);
         p.setQuantity(quantity);
-
+        p.setSize(size);
+        p.setBrand(brandRepo.findById(brand).get());
+        p.setCategory(categoryRepo.findById(category).get());
+        p.setUnit(unitRepo.findById(unit).get());
+        p.setVisibility(visibility);
 
         return String.format("%s has been added", title);
+
     }
 }
