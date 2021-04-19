@@ -92,4 +92,5 @@ public class Product {
     private boolean visibility = false;
 
 
+
 }
