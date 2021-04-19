@@ -1,6 +1,7 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class DeliveryOption {
 
     @Id
