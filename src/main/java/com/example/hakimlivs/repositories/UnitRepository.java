@@ -1,7 +1,10 @@
 package com.example.hakimlivs.repositories;
 
+import com.example.hakimlivs.models.Category;
 import com.example.hakimlivs.models.Unit;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.Optional;
 
 /**
  * Created by Lukas Aronsson
@@ -11,4 +14,7 @@ import org.springframework.data.repository.CrudRepository;
  * Copyright: MIT
  **/
 public interface UnitRepository extends CrudRepository<Unit, Long> {
+    public Optional<Unit> findByUnit(String unit);
+
+    public boolean existsByUnit (String unit);
 }

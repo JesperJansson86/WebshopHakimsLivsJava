@@ -43,7 +43,7 @@ public class Customer {
         this.lastName = lastName;
         this.address = address;
         this.email = email;
-        Password = password;
+        this.Password = password;
         this.loyalCustomer = loyalCustomer;
         this.adminStatus = adminStatus;
     }

@@ -1,9 +1,11 @@
 package com.example.hakimlivs.repositories;
 
 import com.example.hakimlivs.models.Brand;
+import com.example.hakimlivs.models.Category;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by David Hedman <br>
@@ -14,5 +16,7 @@ import java.util.List;
  */
 public interface BrandRepository extends CrudRepository<Brand, Long> {
 
-    List<Brand> findByName(String name);
+    public Optional<Brand> findByBrand(String brand);
+
+    public boolean existsByBrand(String brand);
 }

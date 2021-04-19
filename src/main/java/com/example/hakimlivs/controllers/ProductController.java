@@ -40,7 +40,7 @@ public class ProductController {
             @RequestParam int size,
             @RequestParam String brand,
             @RequestParam String category,
-            @RequestParam Long unit,
+            @RequestParam String unit,
             @RequestParam boolean visibility
     ){
         Product p = new Product();
@@ -51,8 +51,9 @@ public class ProductController {
         p.setQuantity(quantity);
         p.setSize(size);
 
-        if(brand.equals(brandRepo.findByName(brand).get(0).getBrand())){
-            p.setBrand(brandRepo.findByName(brand).get(0));
+
+        if(brandRepo.existsByBrand(brand)){
+            p.setBrand(brandRepo.findByBrand(brand).get());
         }
         else{
                     Brand b = new Brand();
@@ -60,8 +61,8 @@ public class ProductController {
                     p.setBrand(b);
         }
 
-        if(category.equals(categoryRepo.findByName(category).get(0).getCategory())){
-            p.setCategory(categoryRepo.findByName(category).get(0));
+        if(categoryRepo.existsByCategory(category)){
+            p.setCategory(categoryRepo.findCategoryBycategory(category).get());
         }
         else{
             Category c = new Category();
@@ -69,8 +70,17 @@ public class ProductController {
             p.setCategory(c);
         }
 
-        p.setUnit(unitRepo.findById(unit).get());
+        if(unitRepo.existsByUnit(unit)){
+            p.setUnit(unitRepo.findByUnit(unit).get());
+        }
+        else{
+            Unit u = new Unit();
+            u.setUnit(unit);
+            p.setUnit(u);
+        }
         p.setVisibility(visibility);
+
+        productRepo.save(p);
 
         return String.format("%s has been added", title);
 
@@ -97,7 +107,7 @@ public class ProductController {
     public String updateProduct(@RequestBody Product p){
 
         if(p.getId().equals(getProductById(p.getId()).getId())){
-            addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getBrand(), p.getCategory().getCategory(), p.getUnit().getId(), p.isVisibility());
+            addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getBrand(), p.getCategory().getCategory(), p.getUnit().getUnit(), p.isVisibility());
             return "Product created";
         }
         else{
