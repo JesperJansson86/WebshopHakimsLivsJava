@@ -1,6 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 /**
@@ -13,6 +15,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Address {
 
     @Id
@@ -23,5 +26,8 @@ public class Address {
     @JoinColumn(name = "areacodeid")
     private AreaCode areaCode;
 
-
+    public Address(String address, AreaCode areaCode) {
+        this.address = address;
+        this.areaCode = areaCode;
+    }
 }

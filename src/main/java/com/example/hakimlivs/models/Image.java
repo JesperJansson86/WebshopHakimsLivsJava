@@ -1,6 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 /**
@@ -12,6 +14,7 @@ import javax.persistence.*;
  **/
 @Data
 @Entity
+@NoArgsConstructor
 public class Image {
 
     @Id
@@ -22,4 +25,9 @@ public class Image {
 
     @ManyToOne
     private Product product;
+
+    public Image(String image, Product product) {
+        this.image = image;
+        this.product = product;
+    }
 }

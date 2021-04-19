@@ -1,6 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 /*
@@ -16,6 +18,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
+@NoArgsConstructor
 public class Product {
 
     /**
@@ -92,4 +95,16 @@ public class Product {
     private boolean visibility = false;
 
 
+    public Product(String title, String description, double price, int inventory, int quantity, int size, Brand brand, Category category, Unit unit, boolean visibility) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.inventory = inventory;
+        this.quantity = quantity;
+        this.size = size;
+        this.brand = brand;
+        this.category = category;
+        this.unit = unit;
+        this.visibility = visibility;
+    }
 }

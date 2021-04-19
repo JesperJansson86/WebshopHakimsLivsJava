@@ -1,6 +1,7 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
  **/
 @Data
 @Entity
+@NoArgsConstructor
 public class Orders {
 
     @Id
@@ -35,4 +37,11 @@ public class Orders {
     @JoinColumn(name = "adress_id",referencedColumnName = "id")
     private Address deliveryAddress;
 
+    public Orders(LocalDate orderDate, OrderStatus orderStatus, Customer customer, DeliveryOption deliveryOption, Address deliveryAddress) {
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
+        this.customer = customer;
+        this.deliveryOption = deliveryOption;
+        this.deliveryAddress = deliveryAddress;
+    }
 }

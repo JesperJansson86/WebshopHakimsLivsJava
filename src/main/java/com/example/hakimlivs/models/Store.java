@@ -1,6 +1,7 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Store {
 
     @Id
@@ -29,4 +31,10 @@ public class Store {
     @ManyToOne
     private Address address;
 
+    public Store(String phone, String email, String openHours, Address address) {
+        this.phone = phone;
+        this.email = email;
+        this.openHours = openHours;
+        this.address = address;
+    }
 }

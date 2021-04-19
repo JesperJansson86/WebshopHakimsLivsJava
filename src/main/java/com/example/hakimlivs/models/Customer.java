@@ -1,6 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 /**
@@ -13,6 +15,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Customer {
 
     @Id
@@ -34,4 +37,14 @@ public class Customer {
     private Boolean loyalCustomer;
 
     private Boolean adminStatus;
+
+    public Customer(String firstName, String lastName, Address address, String email, String password, Boolean loyalCustomer, Boolean adminStatus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        Password = password;
+        this.loyalCustomer = loyalCustomer;
+        this.adminStatus = adminStatus;
+    }
 }
