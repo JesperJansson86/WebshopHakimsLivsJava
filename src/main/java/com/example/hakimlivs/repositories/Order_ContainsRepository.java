@@ -1,14 +1,14 @@
 package com.example.hakimlivs.repositories;
 
-import com.example.hakimlivs.models.AreaCode;
 import org.springframework.data.repository.CrudRepository;
+import com.example.hakimlivs.models.Order_Contains;
 
 /**
  * Created by Lukas Aronsson
  * Date: 19/04/2021
- * Time: 09:48
+ * Time: 09:58
  * Project: WebshopHakimsLivsJava
  * Copyright: MIT
  **/
-public interface AreaCodeRepository extends CrudRepository<AreaCode, Long>{
+public interface Order_ContainsRepository extends CrudRepository<Order_Contains, Long> {
 }
