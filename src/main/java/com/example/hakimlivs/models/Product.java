@@ -1,6 +1,8 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 /*
@@ -16,6 +18,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
+@NoArgsConstructor
 public class Product {
 
     /**
@@ -68,22 +71,26 @@ public class Product {
      * Märket som har skapat eller paketerat produkten
      */
 
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.ALL})
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 
     /**
      * Kategorin som produkten är en del av
      */
 
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.ALL})
+    @JoinColumn(name = "category_id")
     private Category category;
 
     /**
      * Enheten som produkten är räknad från
      */
 
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.ALL})
+    @JoinColumn(name = "unit_id")
     private Unit unit;
+
 
     /**
      * Boolean som sätter om produkten ska vara synlig eller inte
