@@ -1,8 +1,9 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
-import java.time.LocalDate;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 
 /**
  * Created by Lukas Aronsson
@@ -25,5 +26,13 @@ public class Orders {
     private OrderStatus orderStatus;
     @ManyToOne
     private Customer customer;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "deliveryoption_id",referencedColumnName = "id")
+    private DeliveryOption deliveryOption;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "adress_id",referencedColumnName = "id")
+    private Address deliveryAddress;
 
 }
