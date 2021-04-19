@@ -92,6 +92,8 @@ public class Product {
     private Unit unit;
 
 
+    private String image;
+
     /**
      * Boolean som sätter om produkten ska vara synlig eller inte
      * Om värdet inte sätts så är dens standard värdet false
