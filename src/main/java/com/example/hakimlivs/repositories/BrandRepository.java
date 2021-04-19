@@ -3,6 +3,8 @@ package com.example.hakimlivs.repositories;
 import com.example.hakimlivs.models.Brand;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /**
  * Created by David Hedman <br>
  * Date: 2021-04-19 <br>
@@ -11,4 +13,6 @@ import org.springframework.data.repository.CrudRepository;
  * Copyright: Nackademin <br>
  */
 public interface BrandRepository extends CrudRepository<Brand, Long> {
+
+    List<Brand> findByName(String name);
 }

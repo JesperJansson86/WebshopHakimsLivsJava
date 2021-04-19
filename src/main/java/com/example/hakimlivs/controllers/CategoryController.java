@@ -31,6 +31,21 @@ public class CategoryController {
 
     @PostMapping("/uprest")
     public Message uprestCategory(@RequestBody Category c){
-        return new Message(false, String.format("%s uppdaterad", c.getCategory()));
+        try {
+            if(c.getCategory() == null || c.getId() == null)
+                throw new IllegalArgumentException("Missing parameter in object");
+            if(categoryRepository.existsById(c.getId())){
+                Category cExisting = categoryRepository.findById(c.getId()).get();
+                cExisting.setCategory(c.getCategory());
+                categoryRepository.save(cExisting);
+                return new Message(true, String.format("%s updated: ID already exists.", c.getCategory()));
+            } else {
+                categoryRepository.save(c);
+                return new Message(true, String.format("%s created: ID not found.", c.getCategory()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(false, "Error when processing.");
+        }
     }
 }
