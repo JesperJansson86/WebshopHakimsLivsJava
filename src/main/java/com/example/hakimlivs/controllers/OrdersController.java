@@ -71,7 +71,7 @@ public class OrdersController {
 
         OrderStatus oStatus = new OrderStatus(orderStatus);
 
-        Customer customer = new Customer(firstName,lastName,ca,email,password,loyalCustomer,adminStatus,phoneNumber);
+        Customer customer = new Customer(firstName,lastName,ca,phoneNumber,email,password,loyalCustomer,adminStatus);
 
         DeliveryOption dOption = new DeliveryOption(deliveryType,deliveryCost);
 
