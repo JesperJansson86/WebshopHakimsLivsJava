@@ -72,7 +72,7 @@ public class Product {
      * Märket som har skapat eller paketerat produkten
      */
 
-    @ManyToOne (cascade = {CascadeType.ALL})
+    @ManyToOne (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
@@ -80,7 +80,7 @@ public class Product {
      * Kategorin som produkten är en del av
      */
 
-    @ManyToOne (cascade = {CascadeType.ALL})
+    @ManyToOne (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -88,11 +88,11 @@ public class Product {
      * Enheten som produkten är räknad från
      */
 
-    @ManyToOne (cascade = {CascadeType.ALL})
+    @ManyToOne (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @OneToMany (cascade = {CascadeType.ALL})
+    @OneToMany (cascade = {CascadeType.DETACH})
     @JoinColumn(name ="image_id")
     private List<Image> imageList;
 
