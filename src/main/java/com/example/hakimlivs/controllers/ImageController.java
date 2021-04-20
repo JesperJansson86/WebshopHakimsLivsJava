@@ -25,7 +25,7 @@ public class ImageController {
             @RequestParam String image,
             @RequestParam Long productId
     ) {
-        if (productRepository.existsById(productId)&&productRepository.hasImageByName(image)) {
+        if (productRepository.existsById(productId)&&productRepository.findByimageList(image)) {
             return "Denna bild finns redan registrerad på denna produkt.";
         } else {
             if (productRepository.existsById(productId)) {
