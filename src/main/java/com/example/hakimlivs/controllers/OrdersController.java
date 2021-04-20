@@ -55,6 +55,7 @@ public class OrdersController {
             @RequestParam double deliveryCost,
             @RequestParam String customerAddress,
             @RequestParam String customerAreaCode,
+            @RequestParam String phoneNumber,
             @RequestParam String customerCity,
             @RequestParam String address,
             @RequestParam String areaCode,
@@ -70,7 +71,7 @@ public class OrdersController {
 
         OrderStatus oStatus = new OrderStatus(orderStatus);
 
-        Customer customer = new Customer(firstName,lastName,ca,email,password,loyalCustomer,adminStatus);
+        Customer customer = new Customer(firstName,lastName,ca,phoneNumber,email,password,loyalCustomer,adminStatus);
 
         DeliveryOption dOption = new DeliveryOption(deliveryType,deliveryCost);
 
