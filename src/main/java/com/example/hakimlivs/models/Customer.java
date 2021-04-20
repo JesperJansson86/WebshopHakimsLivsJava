@@ -44,10 +44,10 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.Password = password;
         this.loyalCustomer = loyalCustomer;
-        this.phoneNumber = phoneNumber;
         this.adminStatus = adminStatus;
     }
 }
