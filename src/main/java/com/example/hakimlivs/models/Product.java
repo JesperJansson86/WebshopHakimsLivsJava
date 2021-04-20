@@ -66,7 +66,7 @@ public class Product {
      * Storeleks typ av produkten
      * Om värdet inte sätts så är dens standard värdet 0
      */
-    private int size = 0;
+    private double size = 0.0;
 
     /**
      * Märket som har skapat eller paketerat produkten

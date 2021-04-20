@@ -37,7 +37,7 @@ public class ProductController {
             @RequestParam double price,
             @RequestParam int inventory,
             @RequestParam int quantity,
-            @RequestParam int size,
+            @RequestParam double size,
             @RequestParam String brand,
             @RequestParam String category,
             @RequestParam String unit,
@@ -94,7 +94,6 @@ public class ProductController {
     @GetMapping(path ="/deleteById")
     public String deleteProductById(@RequestParam Long id){
         productRepo.deleteById(id);
-
         return String.format("Product with id:%s has been deleted", id);
     }
 
