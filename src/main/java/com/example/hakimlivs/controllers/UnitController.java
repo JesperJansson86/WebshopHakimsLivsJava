@@ -2,11 +2,9 @@ package com.example.hakimlivs.controllers;
 
 import com.example.hakimlivs.models.Unit;
 import com.example.hakimlivs.repositories.UnitRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Lukas Aronsson
@@ -26,14 +24,50 @@ public class UnitController {
             @RequestParam String unit,
             @RequestParam String longUnit
     ){
-        Unit u = new Unit();
-        u.setUnit(unit);
-        u.setLongUnit(longUnit);
-        return String.format("%s %s has been added", unit, longUnit);
+        if(unitRepository.existsByUnit(unit)){
+            return "Unit with that unit already exists ";
+        } else if(unitRepository.existsByLongUnit(longUnit)){
+            return "unit by that longUnit already exists ";
+        } else{
+            Unit u = new Unit(unit,longUnit);
+            unitRepository.save(u);
+            return String.format("%s %s has been added", unit, longUnit);
+        }
     }
+
     @GetMapping(path="/byId")
-    public Unit getunitById(@RequestParam long id){ return unitRepository.findById(id).get();}
+    public Unit getUnitById(@RequestParam long id) throws NotFoundException {
+        if(unitRepository.findById(id).isPresent()){
+            return unitRepository.findById(id).get();
+        }else{
+           throw new NotFoundException("Item by that id was not found");
+        }
+    }
+
+    @GetMapping(path = "/deleteById")
+    public String deleteProductById(@RequestParam long id){
+        if(unitRepository.findById(id).isPresent()){
+            unitRepository.deleteById(id);
+            return String.format("Unit with id:%s has been deleted", id);
+        } else return "Unit by that id did not exist and was therefore not deleted";
+    }
+
+
 
     @GetMapping(path="/all")
-    public Iterable<Unit> getAllunit(){ return unitRepository.findAll();}
+    public Iterable<Unit> getAllUnit(){ return unitRepository.findAll();}
+
+    @PostMapping("/update")
+    public String updateUnit(@RequestParam Unit unit) throws NotFoundException {
+
+        if(unit.getId().equals(getUnitById(unit.getId()).getId())){
+            addUnit(unit.getUnit(),unit.getLongUnit());
+            return "Created a new Unit!";
+        }else{
+            Unit updateUnit = getUnitById(unit.getId());
+            updateUnit.setUnit(unit.getUnit());
+            updateUnit.setLongUnit(unit.getLongUnit());
+            return "Unit Updated!";
+        }
+    }
 }
