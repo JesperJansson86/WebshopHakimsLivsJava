@@ -40,13 +40,14 @@ public class Customer {
 
     private Boolean adminStatus;
 
-    public Customer(String firstName, String lastName, Address address, String email, String password, Boolean loyalCustomer, Boolean adminStatus) {
+    public Customer(String firstName, String lastName, Address address, String email, String password, Boolean loyalCustomer, Boolean adminStatus,String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.Password = password;
         this.loyalCustomer = loyalCustomer;
+        this.phoneNumber = phoneNumber;
         this.adminStatus = adminStatus;
     }
 }
