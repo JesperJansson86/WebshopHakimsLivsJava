@@ -36,6 +36,8 @@ public class Customer {
 
     private Boolean loyalCustomer;
 
+    private String phoneNumber;
+
     private Boolean adminStatus;
 
     public Customer(String firstName, String lastName, Address address, String email, String password, Boolean loyalCustomer, Boolean adminStatus) {
