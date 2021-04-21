@@ -56,7 +56,8 @@ public class OrdersController {
             @RequestParam double deliveryCost,
             @RequestParam String address,
             @RequestParam String areaCode,
-            @RequestParam String city
+            @RequestParam String city,
+            @RequestParam String phoneNumber
             ){
 
         City c = new City();
@@ -64,7 +65,7 @@ public class OrdersController {
         Address a = new Address();
         OrderStatus oStatus = new OrderStatus();
         DeliveryOption dOption = new DeliveryOption();
-        Customer customer = new Customer(firstName,lastName,a,email,password,loyalCustomer,adminStatus);
+        Customer customer = new Customer(firstName,lastName,a,phoneNumber,email,password,loyalCustomer,adminStatus);
 
         if(cityRepository.findCityBycity(city)==null){
             c.setCity(city);
