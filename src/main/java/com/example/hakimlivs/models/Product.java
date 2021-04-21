@@ -94,8 +94,13 @@ public class Product {
     private Unit unit;
 
     @JsonManagedReference
-    @OneToMany (mappedBy ="image", cascade = CascadeType.ALL)
+    @OneToMany (cascade = CascadeType.ALL)
+    @JoinColumn(name ="image_id")
     private List<Image> imageList;
+
+//    @OneToMany (cascade = {CascadeType.ALL})
+//    @JoinColumn(name ="image_id")
+//    private List<Image> imageList;
 
     /**
      * Boolean som sätter om produkten ska vara synlig eller inte
