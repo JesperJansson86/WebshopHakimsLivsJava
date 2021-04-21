@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Lukas Aronsson
@@ -24,6 +25,11 @@ public class Unit {
     private String unit;
      
     private String longUnit;
+
+    @OneToMany (cascade = {CascadeType.DETACH})
+    @JoinColumn(name = "unit_id")
+    private List<Product> products;
+
 
     public Unit(String unit, String longUnit) {
         this.unit = unit;

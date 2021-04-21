@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /*
  * Created by Lukas Aronsson
@@ -22,6 +23,10 @@ public class Brand {
     private Long id;
 
     private String brand;
+
+    @OneToMany (cascade = {CascadeType.DETACH})
+    @JoinColumn(name = "brand_id")
+    private List<Product> products;
 
     public Brand(String brand) {
         this.brand = brand;
