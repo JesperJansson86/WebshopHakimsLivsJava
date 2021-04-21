@@ -93,7 +93,7 @@ public class Product {
     private Unit unit;
 
     @OneToMany (cascade = {CascadeType.ALL})
-    @JoinColumn(referencedColumnName ="product_id")
+    @JoinColumn(name ="product_id")
     private List<Image> imageList;
 
     /**
