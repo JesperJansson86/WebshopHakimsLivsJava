@@ -31,7 +31,7 @@ public class AddressController {
     }
 
     @GetMapping(path = "/byId")
-    public Address getaddressById(@RequestParam String id) {
+    public Address getaddressById(@RequestParam Long id) {
         return addressRepository.findById(id).get();
     }
 
