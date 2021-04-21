@@ -26,9 +26,10 @@ public class Unit {
      
     private String longUnit;
 
-    @OneToMany (cascade = {CascadeType.DETACH})
-    @JoinColumn(name = "unit_id")
-    private List<Product> products;
+    @ManyToOne (cascade = {CascadeType.ALL})//@OneToMany (cascade = {CascadeType.DETACH})
+    @JoinColumn(name = "product_id") // unit_id
+    private Product product;
+    //private List<Product> products;
 
 
     public Unit(String unit, String longUnit) {

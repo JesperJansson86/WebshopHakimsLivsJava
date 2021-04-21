@@ -24,9 +24,9 @@ public class Brand {
 
     private String brand;
 
-    @OneToMany (cascade = {CascadeType.DETACH})
+    @ManyToOne (cascade = {CascadeType.ALL}) // @OneTOMany , DETACH
     @JoinColumn(name = "brand_id")
-    private List<Product> products;
+    private Product products; // private List<Product> products;
 
     public Brand(String brand) {
         this.brand = brand;
