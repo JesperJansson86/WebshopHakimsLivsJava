@@ -16,7 +16,7 @@ public class AreaCode {
     private String areaCode;
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "cityid")
+    @JoinColumn(name = "city_id")
     private City city;
 
     public AreaCode(String areaCode, City city) {

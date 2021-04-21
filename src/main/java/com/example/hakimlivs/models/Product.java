@@ -1,5 +1,6 @@
 package com.example.hakimlivs.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -92,9 +93,14 @@ public class Product {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @OneToMany (cascade = {CascadeType.ALL})
+    @JsonManagedReference
+    @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name ="image_id")
     private List<Image> imageList;
+
+//    @OneToMany (cascade = {CascadeType.ALL})
+//    @JoinColumn(name ="image_id")
+//    private List<Image> imageList;
 
     /**
      * Boolean som sätter om produkten ska vara synlig eller inte
