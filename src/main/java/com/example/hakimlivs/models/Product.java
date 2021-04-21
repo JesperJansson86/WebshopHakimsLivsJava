@@ -66,13 +66,13 @@ public class Product {
      * Storeleks typ av produkten
      * Om värdet inte sätts så är dens standard värdet 0
      */
-    private int size = 0;
+    private double size = 0.0;
 
     /**
      * Märket som har skapat eller paketerat produkten
      */
 
-    @ManyToOne (cascade = {CascadeType.ALL})
+    @ManyToOne (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
@@ -80,7 +80,7 @@ public class Product {
      * Kategorin som produkten är en del av
      */
 
-    @ManyToOne (cascade = {CascadeType.ALL})
+    @ManyToOne (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -88,12 +88,12 @@ public class Product {
      * Enheten som produkten är räknad från
      */
 
-    @ManyToOne (cascade = {CascadeType.ALL})
+    @ManyToOne (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @OneToMany (cascade = {CascadeType.ALL})
-    @JoinColumn(name ="image_id")
+    @OneToMany (cascade = {CascadeType.DETACH})
+    @JoinColumn(name ="product_id")
     private List<Image> imageList;
 
     /**
