@@ -40,7 +40,7 @@ public class UnitController {
         if(unitRepository.findById(id).isPresent()){
             return unitRepository.findById(id).get();
         }else{
-           throw new NotFoundException("Item by that id was not found");
+           throw new NotFoundException(String.format("Item by that id:%s was not found",id));
         }
     }
 
@@ -49,7 +49,7 @@ public class UnitController {
         if(unitRepository.findById(id).isPresent()){
             unitRepository.deleteById(id);
             return String.format("Unit with id:%s has been deleted", id);
-        } else return "Unit by that id did not exist and was therefore not deleted";
+        } else return String.format("Unit by that id:%s did not exist and was therefore not deleted",id);
     }
 
 
@@ -60,6 +60,7 @@ public class UnitController {
     @PostMapping("/update")
     public String updateUnit(@RequestParam Unit unit) throws NotFoundException {
 
+        //TODO test update!
         if(unit.getId().equals(getUnitById(unit.getId()).getId())){
             addUnit(unit.getUnit(),unit.getLongUnit());
             return "Created a new Unit!";
