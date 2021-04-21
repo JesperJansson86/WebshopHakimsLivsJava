@@ -92,9 +92,9 @@ public class Product {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @OneToMany (cascade = {CascadeType.ALL})
-    @JoinColumn(name ="product_id")
-    private List<Image> imageList;
+//    @OneToMany (cascade = {CascadeType.ALL})
+//    @JoinColumn(name ="product_id")
+//    private List<Image> imageList;
 
     /**
      * Boolean som sätter om produkten ska vara synlig eller inte
