@@ -24,9 +24,9 @@ public class Category {
 
     private String category;
 
-    @OneToMany (cascade = {CascadeType.DETACH})
+    @ManyToOne (cascade = {CascadeType.ALL}) // @OneToMany , DETACH
     @JoinColumn(name = "category_id")
-    private List<Product> products;
+    private Product products; // private List<Product> products;
 
     public Category(String category) {
         this.category = category;
