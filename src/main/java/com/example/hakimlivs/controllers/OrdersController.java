@@ -49,10 +49,9 @@ public class OrdersController {
             @RequestParam String deliveryType,
             @RequestParam double deliveryCost,
             @RequestParam Long addressId
-
             ) throws NotFoundException {
 
-        LocalDate now = LocalDate.now();
+        LocalDate orderDate = LocalDate.now();
         Address deliveryAddress;
         OrderStatus oStatus = new OrderStatus();
         DeliveryOption dOption = new DeliveryOption();
@@ -62,7 +61,7 @@ public class OrdersController {
             deliveryAddress = addressRepository.findAddressById(addressId);
         } else {
             deliveryAddress = null;
-           // throw new NotFoundException(String.format("Address with id:%s was not found",addressId));
+            // throw new NotFoundException(String.format("Address with id:%s was not found",addressId));
         }
 
         if(orderStatusRepository.findStatusByOrderStatus(orderStatus)==null){
@@ -71,6 +70,7 @@ public class OrdersController {
         } else {
             oStatus = orderStatusRepository.findStatusByOrderStatus(orderStatus);
         }
+
 
         if(customerRepository.findCustomerById(customerId)==null){
             customer = customerRepository.findCustomerById(customerId);
@@ -86,7 +86,7 @@ public class OrdersController {
             dOption = deliveryOptionRepository.findOptionByDeliveryType(deliveryType);
         }
 
-        Orders orders = new Orders(now,oStatus,customer,dOption,deliveryAddress);
+        Orders orders = new Orders(orderDate,oStatus,customer,dOption,deliveryAddress);
         ordersRepository.save(orders);
         return "\nOrder added to " + customer.getFirstName() + " with delivery method " + deliveryType + " ";
     }

@@ -27,7 +27,7 @@ public class Customer {
     private String lastName;
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "adressid",referencedColumnName = "id")
+    @JoinColumn(name = "adress_id",referencedColumnName = "id")
     private Address address;
 
     private String email;
