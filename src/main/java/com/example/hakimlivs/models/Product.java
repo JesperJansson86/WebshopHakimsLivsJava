@@ -92,9 +92,9 @@ public class Product {
     @ManyToOne (cascade = {CascadeType.ALL})
     @JoinColumn(name = "unit_id")
     private Unit unit;
+
     @JsonManagedReference
-    @OneToMany (cascade = {CascadeType.ALL})
-    @JoinColumn(name ="product_id")
+    @OneToMany (mappedBy ="image", cascade = CascadeType.ALL)
     private List<Image> imageList;
 
     /**

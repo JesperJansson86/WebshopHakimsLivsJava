@@ -15,17 +15,18 @@ import javax.persistence.*;
  **/
 @Data
 @Entity
+@Table(name="image")
 @NoArgsConstructor
 public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-     
     private String image;
+
     @JsonManagedReference
     @ManyToOne (cascade = {CascadeType.DETACH})
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     public Image(String image, Product product) {

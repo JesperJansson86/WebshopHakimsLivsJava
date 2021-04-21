@@ -57,7 +57,7 @@ public class AddTestData implements CommandLineRunner {
             addOrderStatus();
             addDeliveryOptions();
             addProducts();
-           // addImages();
+            addImages();
             addOrders();
             addOrder_Contains();
         } catch (Exception e) {
