@@ -1,5 +1,6 @@
 package com.example.hakimlivs.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -91,7 +92,7 @@ public class Product {
     @ManyToOne (cascade = {CascadeType.ALL})
     @JoinColumn(name = "unit_id")
     private Unit unit;
-
+    @JsonManagedReference
     @OneToMany (cascade = {CascadeType.ALL})
     @JoinColumn(name ="product_id")
     private List<Image> imageList;

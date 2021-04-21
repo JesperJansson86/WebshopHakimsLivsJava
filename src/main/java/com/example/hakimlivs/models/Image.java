@@ -1,5 +1,6 @@
 package com.example.hakimlivs.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,7 @@ public class Image {
     private Long id;
      
     private String image;
-
+    @JsonManagedReference
     @ManyToOne (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "product_id")
     private Product product;
