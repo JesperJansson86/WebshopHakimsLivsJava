@@ -44,49 +44,25 @@ public class OrdersController {
 
     @GetMapping(path = "/add")
     public String addOrders(
-            @RequestParam LocalDate orderDate,
             @RequestParam String orderStatus,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam Boolean loyalCustomer,
-            @RequestParam Boolean adminStatus,
+            @RequestParam Long customerId,
             @RequestParam String deliveryType,
             @RequestParam double deliveryCost,
-            @RequestParam String address,
-            @RequestParam String areaCode,
-            @RequestParam String city
-            ){
+            @RequestParam Long addressId
 
-        City c = new City();
-        AreaCode ac = new AreaCode();
-        Address a = new Address();
+            ) throws NotFoundException {
+
+        LocalDate now = LocalDate.now();
+        Address deliveryAddress;
         OrderStatus oStatus = new OrderStatus();
         DeliveryOption dOption = new DeliveryOption();
-        Customer customer = new Customer(firstName,lastName,a,email,password,loyalCustomer,adminStatus);
+        Customer customer;
 
-        if(cityRepository.findCityBycity(city)==null){
-            c.setCity(city);
-            cityRepository.save(c);
-        } else{
-          c = cityRepository.findCityBycity(city);
-        }
-
-        if (areaCodeRepository.findAreaCodeByareaCode(areaCode)==null){
-            ac.setAreaCode(areaCode);
-            ac.setCity(c);
-            areaCodeRepository.save(ac);
-        } else{
-            ac = areaCodeRepository.findAreaCodeByareaCode(areaCode);
-        }
-
-        if (addressRepository.findAddressByAddress(address)==null){
-            a.setAddress(address);
-            a.setAreaCode(ac);
-            addressRepository.save(a);
+        if (addressRepository.findAddressById(addressId)==null){
+            deliveryAddress = addressRepository.findAddressById(addressId);
         } else {
-            a = addressRepository.findAddressByAddress(address);
+            deliveryAddress = null;
+           // throw new NotFoundException(String.format("Address with id:%s was not found",addressId));
         }
 
         if(orderStatusRepository.findStatusByOrderStatus(orderStatus)==null){
@@ -96,10 +72,10 @@ public class OrdersController {
             oStatus = orderStatusRepository.findStatusByOrderStatus(orderStatus);
         }
 
-        if(customerRepository.findCustomerByEmail(email)==null){
-            customerRepository.save(customer);
+        if(customerRepository.findCustomerById(customerId)==null){
+            customer = customerRepository.findCustomerById(customerId);
         } else {
-            customer = customerRepository.findCustomerByEmail(email);
+            throw new NotFoundException(String.format("Customer with id:%s was not found",customerId));
         }
 
         if(deliveryOptionRepository.findOptionByDeliveryType(deliveryType)==null){
@@ -110,9 +86,9 @@ public class OrdersController {
             dOption = deliveryOptionRepository.findOptionByDeliveryType(deliveryType);
         }
 
-        Orders orders = new Orders(orderDate,oStatus,customer,dOption,a);
+        Orders orders = new Orders(now,oStatus,customer,dOption,deliveryAddress);
         ordersRepository.save(orders);
-        return "\nOrder added to " + firstName + " with delivery method " + deliveryType + " ";
+        return "\nOrder added to " + customer.getFirstName() + " with delivery method " + deliveryType + " ";
     }
 
 
@@ -126,11 +102,11 @@ public class OrdersController {
     }
 
     @GetMapping(path = "/deleteById")
-    public String deleteOrdersById(@RequestParam long id){
+    public String deleteOrdersById(@RequestParam long id) throws NotFoundException {
         if(ordersRepository.findById(id).isPresent()){
             ordersRepository.deleteById(id);
             return String.format("Order with id:%s has been deleted", id);
-        } else return String.format("Order by that id:%s did not exist and was therefore not deleted",id);
+        } else throw new NotFoundException(String.format("Item by that id:%s was not found and therefore not deleted ",id));
     }
 
     @GetMapping(path="/all")
