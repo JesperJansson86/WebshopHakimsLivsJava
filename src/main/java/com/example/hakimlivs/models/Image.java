@@ -23,8 +23,8 @@ public class Image {
      
     private String image;
 
-    @ManyToOne (cascade = {CascadeType.ALL})
-    @JoinColumn(name = "productid")
+    @ManyToOne (cascade = {CascadeType.DETACH})
+    @JoinColumn(name = "product_id")
     private Product product;
 
     public Image(String image, Product product) {
