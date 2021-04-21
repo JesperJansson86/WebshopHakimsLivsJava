@@ -494,7 +494,7 @@ public class AddTestData implements CommandLineRunner {
         images.add(new Image("semper_crackers.jpg", productRepo.findById(3L).get()));
         images.add(new Image("axa_havregryn_750g_ny.jpg", productRepo.findById(4L).get()));
         images.add(new Image("pot_koppnudlar_kyckling_och_svamp_90g_.jpg", productRepo.findById(5L).get()));
-        images.add(new Image("gog_majskorn_380g_eko_.jpg.jpg", productRepo.findById(6L).get()));
+        images.add(new Image("gog_majskorn_380g_eko_.jpg", productRepo.findById(6L).get()));
         images.add(new Image("ms121451-zet_casa_di_luca_pappardelle_500gjpg.jpg", productRepo.findById(7L).get()));
         images.add(new Image("ms121444-24-pack_lif_energy_mango_dryck_250mljpg.jpg", productRepo.findById(8L).get()));
         images.add(new Image("ms107352_dryck_celebrate_zero_355mljpg.jpg", productRepo.findById(9L).get()));
