@@ -61,7 +61,7 @@ public class AddTestData implements CommandLineRunner {
             addOrders();
             addOrder_Contains();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -523,35 +523,35 @@ public class AddTestData implements CommandLineRunner {
         List<Orders> orders = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         orders.add(new Orders(
-                LocalDate.parse("21-03-29 14:00", formatter),
+                LocalDate.parse("2021-03-29 14:00:00", formatter),
                 orderStatusRepo.findById(1L).get(),
                 customerRepo.findById(1L).get(),
                 deliveryOptionRepo.findById(1L).get(),
                 null
         ));
         orders.add(new Orders(
-                LocalDate.parse("2021-03-26 13:30", formatter),
+                LocalDate.parse("2021-03-26 13:30:00", formatter),
                 orderStatusRepo.findById(2L).get(),
                 customerRepo.findById(3L).get(),
                 deliveryOptionRepo.findById(2L).get(),
                 addressRepo.findById(3L).get()
         ));
         orders.add(new Orders(
-                LocalDate.parse("2021-03.25 10:45", formatter),
+                LocalDate.parse("2021-03-25 10:45:00", formatter),
                 orderStatusRepo.findById(3L).get(),
                 customerRepo.findById(2L).get(),
                 deliveryOptionRepo.findById(2L).get(),
                 addressRepo.findById(2L).get()
         ));
         orders.add(new Orders(
-                LocalDate.parse("2021-03-19 11:00", formatter),
+                LocalDate.parse("2021-03-19 11:00:00", formatter),
                 orderStatusRepo.findById(3L).get(),
                 customerRepo.findById(4L).get(),
                 deliveryOptionRepo.findById(1L).get(),
                 null
         ));
         orders.add(new Orders(
-                LocalDate.parse("2021-03-29 15:10", formatter),
+                LocalDate.parse("2021-03-29 15:10:00", formatter),
                 orderStatusRepo.findById(1L).get(),
                 customerRepo.findById(4L).get(),
                 deliveryOptionRepo.findById(1L).get(),
