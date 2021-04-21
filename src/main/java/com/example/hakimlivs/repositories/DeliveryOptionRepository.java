@@ -11,4 +11,5 @@ import org.springframework.data.repository.CrudRepository;
  * Copyright: MIT
  **/
 public interface DeliveryOptionRepository extends CrudRepository<DeliveryOption, Long> {
+    DeliveryOption findOptionByDeliveryType(String deliveryType);
 }
