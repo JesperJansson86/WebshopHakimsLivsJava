@@ -11,4 +11,6 @@ import org.springframework.data.repository.CrudRepository;
  * Copyright: MIT
  **/
 public interface OrderStatusRepository extends CrudRepository<OrderStatus, Long> {
+
+   OrderStatus findStatusByOrderStatus(String orderStatus);
 }
