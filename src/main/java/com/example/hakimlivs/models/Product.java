@@ -93,12 +93,12 @@ public class Product {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @JsonManagedReference
-    @OneToMany (cascade = CascadeType.ALL)
-    @JoinColumn(name ="image_id")
+
+    @OneToMany (cascade = {CascadeType.ALL})
+    @JoinColumn(name ="product_id")
     private List<Image> imageList;
 
-//    @OneToMany (cascade = {CascadeType.ALL})
+//    @OneToMany (mappedBy ="image",cascade = {CascadeType.ALL})
 //    @JoinColumn(name ="image_id")
 //    private List<Image> imageList;
 
@@ -120,5 +120,18 @@ public class Product {
         this.category = category;
         this.unit = unit;
         this.visibility = visibility;
+    }
+    public Product(String title, String description, double price, int inventory, int quantity, int size, Brand brand, Category category, Unit unit, boolean visibility, List image) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.inventory = inventory;
+        this.quantity = quantity;
+        this.size = size;
+        this.brand = brand;
+        this.category = category;
+        this.unit = unit;
+        this.visibility = visibility;
+        this.imageList = image;
     }
 }
