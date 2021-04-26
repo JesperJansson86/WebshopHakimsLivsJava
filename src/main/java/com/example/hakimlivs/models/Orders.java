@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by Lukas Aronsson
@@ -36,6 +37,10 @@ public class Orders {
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "adress_id",referencedColumnName = "id")
     private Address deliveryAddress;
+
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    private List<Order_Contains> productList;
 
     public Orders(LocalDate orderDate, OrderStatus orderStatus, Customer customer, DeliveryOption deliveryOption, Address deliveryAddress) {
         this.orderDate = orderDate;

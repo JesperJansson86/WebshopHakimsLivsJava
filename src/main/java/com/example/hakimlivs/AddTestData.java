@@ -691,6 +691,10 @@ public class AddTestData implements CommandLineRunner {
                 productRepo.findById(2L).get(),
                 3
         ));
-
+        for (int i = 0; i < OCs.size(); i++) {
+            Long id = i + 1L;
+            OCs.get(i).setId(id);
+        }
+        order_containsRepo.saveAll(OCs);
     }
 }
