@@ -3,13 +3,14 @@ package com.example.hakimlivs.controllers;
 import com.example.hakimlivs.models.*;
 import com.example.hakimlivs.repositories.*;
 import javassist.NotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by Lukas Aronsson
@@ -116,6 +117,64 @@ public class OrdersController {
         return "\nOrder added to " + firstName + " with delivery method " + deliveryType + " ";
     }
 
+    /*
+    JSON-mall:
+    {
+        "products" : [
+            {
+                "product_id" : 1,
+                "amount": 2
+            },
+            {
+                "product_id" : 2,
+                "amount": 5
+            }
+        ],
+        "delivery_option_id" : 1,
+        "firstName": "Jane",
+        "lastName": "Andresson",
+        "address": "Stadsgårdshamnen 22",
+        "areaCode" : 11645,
+        "city": "Stockholm",
+        "email": "jabari45@example.org",
+        "phoneNumber": "070-1740605"
+    }
+     */
+    //Inner class
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    private static class ProductResponse {
+        int product_id;
+        int amount;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    private static class OrderResponse {
+        String firstName;
+        String lastName;
+        String address;
+        int areaCode;
+        String city;
+        String email;
+        String phoneNumber;
+        int delivery_option_id;
+        List<ProductResponse> products;
+
+    }
+
+    @PostMapping(path = "/post-add")
+    public Message addOrdersByPost(@RequestBody OrderResponse newOrder){
+//        String combinedproducts = "";
+//        for (ProductResponse product : newOrder.products) {
+//            combinedproducts += product.product_id + ":" + product.amount + " ";
+//        }
+//        return new Message(false, "something went wrong ("+combinedproducts+")");
+
+        return new Message(true, "Order added");
+    }
 
     @GetMapping(path="/byId")
     public Orders getOrdersById(@RequestParam long id) throws NotFoundException {
@@ -124,6 +183,32 @@ public class OrdersController {
         } else {
             throw new NotFoundException(String.format("Item by that id:%s was not found",id));
         }
+    }
+
+    @GetMapping(path="post-info")
+    public String getPostInfo(){
+        return """
+                  {
+                        "products" : [
+                            {
+                                "product_id" : 1,
+                                "amount": 2
+                            },
+                            {
+                                "product_id" : 2,
+                                "amount": 5
+                            }
+                        ],
+                        "delivery_option_id" : 1,
+                        "firstName": "Jane",
+                        "lastName": "Andresson",
+                        "address": "Stadsgårdshamnen 22",
+                        "areaCode" : 11645,
+                        "city": "Stockholm",
+                        "email": "jabari45@example.org",
+                        "phoneNumber": "070-1740605"
+                    }
+                """;
     }
 
     @GetMapping(path = "/deleteById")
@@ -136,5 +221,6 @@ public class OrdersController {
 
     @GetMapping(path="/all")
     public Iterable<Orders> getAllOrders() { return ordersRepository.findAll();}
+
 
 }
