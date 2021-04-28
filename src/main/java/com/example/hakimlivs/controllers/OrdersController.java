@@ -45,6 +45,15 @@ public class OrdersController {
     @Autowired
     DeliveryOptionRepository deliveryOptionRepository;
 
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    Order_ContainsRepository order_containsRepository;
+
+    @Autowired
+    CustomerService customerService;
+
     @GetMapping(path = "/add")
     public String addOrders(
             @RequestParam LocalDate orderDate,
@@ -61,31 +70,31 @@ public class OrdersController {
             @RequestParam String areaCode,
             @RequestParam String city,
             @RequestParam String phoneNumber
-            ){
+    ) {
 
         City c = new City();
         AreaCode ac = new AreaCode();
         Address a = new Address();
         OrderStatus oStatus = new OrderStatus();
         DeliveryOption dOption = new DeliveryOption();
-        Customer customer = new Customer(firstName,lastName,a,phoneNumber,email,password,loyalCustomer,adminStatus);
+        Customer customer = new Customer(firstName, lastName, a, phoneNumber, email, password, loyalCustomer, adminStatus);
 
-        if(cityRepository.findCityBycity(city)==null){
+        if (cityRepository.findCityBycity(city) == null) {
             c.setCity(city);
             cityRepository.save(c);
-        } else{
-          c = cityRepository.findCityBycity(city);
+        } else {
+            c = cityRepository.findCityBycity(city);
         }
 
-        if (areaCodeRepository.findAreaCodeByareaCode(areaCode)==null){
+        if (areaCodeRepository.findAreaCodeByareaCode(areaCode) == null) {
             ac.setAreaCode(areaCode);
             ac.setCity(c);
             areaCodeRepository.save(ac);
-        } else{
+        } else {
             ac = areaCodeRepository.findAreaCodeByareaCode(areaCode);
         }
 
-        if (addressRepository.findAddressByAddress(address)==null){
+        if (addressRepository.findAddressByAddress(address) == null) {
             a.setAddress(address);
             a.setAreaCode(ac);
             addressRepository.save(a);
@@ -93,20 +102,20 @@ public class OrdersController {
             a = addressRepository.findAddressByAddress(address);
         }
 
-        if(orderStatusRepository.findStatusByOrderStatus(orderStatus)==null){
+        if (orderStatusRepository.findStatusByOrderStatus(orderStatus) == null) {
             oStatus.setOrderStatus(orderStatus);
             orderStatusRepository.save(oStatus);
         } else {
             oStatus = orderStatusRepository.findStatusByOrderStatus(orderStatus);
         }
 
-        if(customerRepository.findCustomerByEmail(email)==null){
+        if (customerRepository.findCustomerByEmail(email) == null) {
             customerRepository.save(customer);
         } else {
             customer = customerRepository.findCustomerByEmail(email);
         }
 
-        if(deliveryOptionRepository.findOptionByDeliveryType(deliveryType)==null){
+        if (deliveryOptionRepository.findOptionByDeliveryType(deliveryType) == null) {
             dOption.setDeliveryType(deliveryType);
             dOption.setDeliveryCost(deliveryCost);
             deliveryOptionRepository.save(dOption);
@@ -114,7 +123,7 @@ public class OrdersController {
             dOption = deliveryOptionRepository.findOptionByDeliveryType(deliveryType);
         }
 
-        Orders orders = new Orders(orderDate,oStatus,customer,dOption,a);
+        Orders orders = new Orders(orderDate, oStatus, customer, dOption, a);
         ordersRepository.save(orders);
         return "\nOrder added to " + firstName + " with delivery method " + deliveryType + " ";
     }
@@ -147,7 +156,7 @@ public class OrdersController {
     @NoArgsConstructor
     @AllArgsConstructor
     private static class ProductResponse {
-        int product_id;
+        Long product_id;
         int amount;
     }
 
@@ -168,7 +177,96 @@ public class OrdersController {
     }
 
     @PostMapping(path = "/post-add")
-    public Message addOrdersByPost(@RequestBody OrderResponse newOrder){
+    public Message addOrdersByPost(@RequestBody OrderResponse newOrder) {
+
+        for (var v : newOrder.products
+        ) {
+            Product product = productRepository.findById(v.getProduct_id()).get();
+            int inventory = product.getInventory();
+            if (inventory < v.getAmount()) {
+                return new Message(false, "Det finns inte nog utav " + product.getTitle() + " i lagret.");
+            }
+        }
+
+        Orders orders = new Orders();
+        orders.setOrderDate(LocalDate.now());
+        orders.setOrderStatus(orderStatusRepository.findById(1L).get());
+
+        if (newOrder.getDelivery_option_id() == 1) {// butik 1, Hemleverans 2, Fri frakt 3.
+            orders.setDeliveryOption(deliveryOptionRepository.findById(1L).get());
+            orders.setDeliveryAddress(null);
+        }
+        else if (newOrder.getDelivery_option_id() == 2 || newOrder.getDelivery_option_id() == 3){
+            Address tempAddress = new Address();
+            AreaCode tempAreaCode = new AreaCode();
+            City tempCity   = new City();
+            if(!cityRepository.existsByCity(newOrder.city)){
+                tempCity.setCity(newOrder.city);
+                cityRepository.save(tempCity);
+            }
+            if (!areaCodeRepository.existsByAreaCode(String.valueOf(newOrder.areaCode))){
+                tempAreaCode.setAreaCode(String.valueOf(newOrder.areaCode));
+                areaCodeRepository.save(tempAreaCode);
+            }
+            if (!addressRepository.existsByAddress(newOrder.address)){
+                tempAddress.setAddress(newOrder.address);
+                addressRepository.save(tempAddress);
+            }
+
+            orders.setDeliveryAddress(addressRepository.findAddressByAddress(newOrder.address));
+            tempCity = cityRepository.findCityBycity(newOrder.city);
+            tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(String.valueOf(newOrder.areaCode));
+            tempAddress= addressRepository.findAddressByAddress(newOrder.address);
+            tempAreaCode.setCity(tempCity);
+            tempAddress.setAreaCode(tempAreaCode);
+//            customer.setAddress(tempAddress);
+            cityRepository.save(tempCity);
+            areaCodeRepository.save(tempAreaCode);
+            addressRepository.save(tempAddress);
+            ordersRepository.save(orders);
+
+        } else {
+            return new Message(false, "Delivery Option not found");
+        }
+
+        if (customerRepository.existsByEmail(newOrder.email)) {
+            Customer customer = customerRepository.findCustomerByEmail(newOrder.email);
+            orders.setCustomer(customer);
+            ordersRepository.save(orders);
+        } else {
+            customerService.addCustomer(newOrder.firstName,
+                    newOrder.lastName,
+                    newOrder.email,
+                    "password",
+                    false,
+                    false,
+                    newOrder.address,
+                    String.valueOf(newOrder.areaCode),
+                    newOrder.city);
+            Customer customer = customerRepository.findCustomerByEmail(newOrder.email);
+            orders.setCustomer(customer);
+            ordersRepository.save(orders);
+        }
+
+        newOrder.products.forEach(orderedProduct -> {
+            Order_Contains oc = new Order_Contains();
+            oc.setOrder(orders);
+            Product databaseProduct = productRepository.findById(orderedProduct.getProduct_id()).get();
+            databaseProduct.setInventory(databaseProduct.getInventory() - orderedProduct.getAmount());
+            productRepository.save(databaseProduct);
+            oc.setProduct(databaseProduct);
+            oc.setProductAmount(orderedProduct.getAmount());
+            order_containsRepository.save(oc);
+        });
+
+//  public Orders(
+//      LocalDate orderDate,            default: Localdate.now()
+//      OrderStatus orderStatus,        default: findbyID1
+//      Customer customer,              notnull
+//      DeliveryOption deliveryOption,  notnull
+//      Address deliveryAddress         nullable (om ingen leverans ska ske)
+//      )
+
 //        String combinedproducts = "";
 //        for (ProductResponse product : newOrder.products) {
 //            combinedproducts += product.product_id + ":" + product.amount + " ";
@@ -179,17 +277,17 @@ public class OrdersController {
         return new Message(true, "Order added");
     }
 
-    @GetMapping(path="/byId")
+    @GetMapping(path = "/byId")
     public Orders getOrdersById(@RequestParam long id) throws NotFoundException {
-        if(ordersRepository.findById(id).isPresent()){
+        if (ordersRepository.findById(id).isPresent()) {
             return ordersRepository.findById(id).get();
         } else {
-            throw new NotFoundException(String.format("Item by that id:%s was not found",id));
+            throw new NotFoundException(String.format("Item by that id:%s was not found", id));
         }
     }
 
-    @GetMapping(path="post-info")
-    public String getPostInfo(){
+    @GetMapping(path = "post-info")
+    public String getPostInfo() {
         return """
                   {
                         "products" : [
@@ -215,15 +313,17 @@ public class OrdersController {
     }
 
     @GetMapping(path = "/deleteById")
-    public String deleteOrdersById(@RequestParam long id){
-        if(ordersRepository.findById(id).isPresent()){
+    public String deleteOrdersById(@RequestParam long id) {
+        if (ordersRepository.findById(id).isPresent()) {
             ordersRepository.deleteById(id);
             return String.format("Order with id:%s has been deleted", id);
-        } else return String.format("Order by that id:%s did not exist and was therefore not deleted",id);
+        } else return String.format("Order by that id:%s did not exist and was therefore not deleted", id);
     }
 
-    @GetMapping(path="/all")
-    public Iterable<Orders> getAllOrders() { return ordersRepository.findAll();}
+    @GetMapping(path = "/all")
+    public Iterable<Orders> getAllOrders() {
+        return ordersRepository.findAll();
+    }
 
 
 }

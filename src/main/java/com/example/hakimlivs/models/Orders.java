@@ -41,7 +41,7 @@ public class Orders {
     @JoinColumn(name = "adress_id",referencedColumnName = "id")
     private Address deliveryAddress;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "order_id")
     private List<Order_Contains> productList;
 
