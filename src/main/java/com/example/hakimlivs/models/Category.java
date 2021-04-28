@@ -1,5 +1,6 @@
 package com.example.hakimlivs.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,9 +25,10 @@ public class Category {
 
     private String category;
 
-    @ManyToOne (cascade = {CascadeType.ALL}) // @OneToMany , DETACH
+    @OneToMany (cascade = {CascadeType.PERSIST}) // @OneToMany , DETACH
     @JoinColumn(name = "category_id")
-    private Product products; // private List<Product> products;
+    @JsonBackReference
+    private List<Product> products; // private List<Product> products;
 
     public Category(String category) {
         this.category = category;

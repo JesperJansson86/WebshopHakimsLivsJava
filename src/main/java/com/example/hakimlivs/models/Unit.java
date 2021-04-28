@@ -1,5 +1,6 @@
 package com.example.hakimlivs.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,9 +27,10 @@ public class Unit {
      
     private String longUnit;
 
-    @ManyToOne (cascade = {CascadeType.ALL})//@OneToMany (cascade = {CascadeType.DETACH})
+    @OneToMany (cascade = {CascadeType.PERSIST})//@OneToMany (cascade = {CascadeType.DETACH})
     @JoinColumn(name = "product_id") // unit_id
-    private Product product;
+    @JsonBackReference
+    private List<Product> products;
     //private List<Product> products;
 
 
