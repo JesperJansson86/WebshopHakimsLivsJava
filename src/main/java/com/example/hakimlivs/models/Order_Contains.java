@@ -3,6 +3,7 @@ package com.example.hakimlivs.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -16,10 +17,10 @@ public class Order_Contains {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Orders order;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Product product;
 
     private int productAmount;

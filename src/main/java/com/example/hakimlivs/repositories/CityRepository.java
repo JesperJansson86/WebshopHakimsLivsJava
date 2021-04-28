@@ -5,5 +5,6 @@ import com.example.hakimlivs.models.City;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CityRepository extends CrudRepository<City, Long> {
-    public City findCityBycity(String a);
+    public City findCityBycity(String city);
+    public boolean existsByCity(String city);
 }

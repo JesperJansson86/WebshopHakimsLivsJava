@@ -1,7 +1,10 @@
 package com.example.hakimlivs.models;
 
+import com.example.hakimlivs.repositories.OrderStatusRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.criterion.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDate;

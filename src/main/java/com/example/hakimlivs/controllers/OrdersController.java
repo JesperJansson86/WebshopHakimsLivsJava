@@ -7,9 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -172,6 +174,7 @@ public class OrdersController {
 //            combinedproducts += product.product_id + ":" + product.amount + " ";
 //        }
 //        return new Message(false, "something went wrong ("+combinedproducts+")");
+
 
         return new Message(true, "Order added");
     }

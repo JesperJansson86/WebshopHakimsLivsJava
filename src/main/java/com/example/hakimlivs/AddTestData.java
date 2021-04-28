@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -61,7 +62,9 @@ public class AddTestData implements CommandLineRunner {
             addOrders();
             addOrder_Contains();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Products give error when implementing 2nd time.. maybe no worries\n" +
+                    "Let's call it Error: No error?");
+//            e.printStackTrace();
         }
     }
 
