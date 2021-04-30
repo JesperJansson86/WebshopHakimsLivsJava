@@ -307,7 +307,25 @@ public class OrdersController {
         return ordersRepository.findAll();
     }
 
+    @GetMapping("/update")
+    public Message updateOrders(@RequestParam Long id, @RequestParam long statusid){
+        try {
+            if(!ordersRepository.existsById(id)){
+//                throw new IllegalArgumentException("Order does not exist");
+            return new Message(false, "Order does not exist");}
+            else if (!orderStatusRepository.existsById(statusid))
+                return new Message(false, "OrderstatusID does not exist");
 
+                Orders oExisting = ordersRepository.findById(id).get();
+                oExisting.setOrderStatus(orderStatusRepository.findById(statusid).get());
+                ordersRepository.save(oExisting);
+                return new Message(true, String.format("%s updated", oExisting.getId()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(false, "Error when processing.");
+        }
+    }
 
 
 }

@@ -11,4 +11,5 @@ import org.springframework.data.repository.CrudRepository;
  * Copyright: MIT
  **/
 public interface OrdersRepository extends CrudRepository<Orders, Long> {
+    public boolean existsById (Long id);
 }
