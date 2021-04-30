@@ -48,4 +48,9 @@ public class CategoryController {
             return new Message(false, "Error when processing.");
         }
     }
+    @GetMapping(path ="/deleteById")
+    public String deleteCategorytById(@RequestParam Long id){
+        categoryRepository.deleteById(id);
+        return String.format("Category with id: %s has been deleted", id);
+    }
 }
