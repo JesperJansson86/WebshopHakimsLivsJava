@@ -113,6 +113,7 @@ public class ProductController {
             Product updateP = getProductById(p.getId());
             updateP.setTitle(p.getTitle());
             updateP.setDescription(p.getDescription());
+            updateP.setPrice(p.getPrice());
             updateP.setInventory(p.getInventory());
             updateP.setQuantity(p.getQuantity());
             updateP.setSize(p.getSize());
