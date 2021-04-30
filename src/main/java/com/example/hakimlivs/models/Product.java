@@ -69,11 +69,7 @@ public class Product {
      */
     private double size = 0.0;
 
-    /**
-     * Märket som har skapat eller paketerat produkten
-     */
-
-    @ManyToOne (cascade = {CascadeType.PERSIST}) // DETACH
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "brand_id")
     private Brand brand;
 

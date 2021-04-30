@@ -81,7 +81,7 @@ public class OrdersController {
 
     @PostMapping(path = "/add")
     public Message addOrdersByPost(@RequestBody OrderResponse newOrder) {
-
+        //Här kontrollerar vi för varje produkt i beställningen ifall det finns nog i lager.
         for (var v : newOrder.products
         ) {
             Product product = productRepository.findById(v.getProduct_id()).get();
@@ -99,13 +99,16 @@ public class OrdersController {
         orders.setOrderDate(LocalDate.now());
         orders.setOrderStatus(orderStatusRepository.findById(1L).get());
 
-        if (newOrder.getDelivery_option_id() == 1) {// butik 1, Hemleverans 2, Fri frakt 3.
+        if (newOrder.getDelivery_option_id() == 1) {// Hämtas i butik 1
             orders.setDeliveryOption(deliveryOptionRepository.findById(1L).get());
             orders.setDeliveryAddress(null);
-        } else if (newOrder.getDelivery_option_id() == 2 || newOrder.getDelivery_option_id() == 3) {
+        } else if (newOrder.getDelivery_option_id() == 2 || newOrder.getDelivery_option_id() == 3) { // 2=Hemleverans 2, 3 = Fri frakt
+            orders.setDeliveryOption(deliveryOptionRepository.findById(newOrder.delivery_option_id).get());
             Address tempAddress = new Address();
             AreaCode tempAreaCode = new AreaCode();
             City tempCity = new City();
+
+
             if (!cityRepository.existsByCity(newOrder.city)) {
                 tempCity.setCity(newOrder.city);
                 cityRepository.save(tempCity);

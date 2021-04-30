@@ -49,6 +49,11 @@ public class ImageController {
         return imageRepository.findAll();
     }
 
+    @GetMapping(path = "/deleteById")
+    public String deleteImageById(@RequestParam Long id) {
+        imageRepository.deleteById(id);
+        return String.format("Image with id: %s has been deleted", id);
+    }
 }
 
 

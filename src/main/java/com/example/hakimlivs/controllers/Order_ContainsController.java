@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = ("/api/order_Contains"))
 public class Order_ContainsController {
     @Autowired
-    Order_ContainsRepository Order_ContainsRepository;
+    Order_ContainsRepository order_ContainsRepository;
 
     @GetMapping(path = "/add")
     public String addorder_Contains(
@@ -22,7 +22,8 @@ public class Order_ContainsController {
     ){
         Order_Contains order_c = new Order_Contains();
 
-        Order_ContainsRepository.save(order_c);
+        order_ContainsRepository.save(order_c);
+
         return "\norder_Contains has been added! ";
     }
 
@@ -36,4 +37,9 @@ public class Order_ContainsController {
         return Order_ContainsRepository.findAll();
     }
 
+    @GetMapping(path = "/deleteById")
+    public String deleteOrder_ContainsById(@RequestParam Long id) {
+        order_ContainsRepository.deleteById(id);
+        return String.format("Order_Contains with id: %s has been deleted", id);
+    }
 }

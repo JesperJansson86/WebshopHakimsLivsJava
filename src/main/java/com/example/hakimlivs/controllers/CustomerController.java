@@ -82,4 +82,9 @@ AreaCodeRepository areaCodeRepository;
         return customerRepository.findAll();
     }
 
+    @GetMapping(path = "/deleteById")
+    public String deleteCustomerById(@RequestParam Long id) {
+        customerRepository.deleteById(id);
+        return String.format("Customer with id: %s has been deleted", id);
+    }
 }
