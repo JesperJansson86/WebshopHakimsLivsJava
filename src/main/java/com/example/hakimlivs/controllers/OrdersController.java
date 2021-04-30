@@ -326,6 +326,10 @@ public class OrdersController {
             return new Message(false, "Error when processing.");
         }
     }
+    @GetMapping("/allByStatus")
+    public   Iterable<Orders> findOrdersByStatus(@RequestParam long id){
+        return ordersRepository.findOrdersByOrderStatus(orderStatusRepository.findById(id).get());
+    }
 
 
 }
