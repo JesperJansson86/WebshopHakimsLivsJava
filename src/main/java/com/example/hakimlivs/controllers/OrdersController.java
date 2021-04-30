@@ -154,7 +154,7 @@ public class OrdersController {
 
     }
 
-    @PostMapping(path = "/post-add" )
+    @PostMapping(path = "/post-add")
     public Message addOrdersByPost(@RequestBody OrderResponse newOrder) {
 
         for (var v : newOrder.products
@@ -177,20 +177,19 @@ public class OrdersController {
         if (newOrder.getDelivery_option_id() == 1) {// butik 1, Hemleverans 2, Fri frakt 3.
             orders.setDeliveryOption(deliveryOptionRepository.findById(1L).get());
             orders.setDeliveryAddress(null);
-        }
-        else if (newOrder.getDelivery_option_id() == 2 || newOrder.getDelivery_option_id() == 3){
+        } else if (newOrder.getDelivery_option_id() == 2 || newOrder.getDelivery_option_id() == 3) {
             Address tempAddress = new Address();
             AreaCode tempAreaCode = new AreaCode();
-            City tempCity   = new City();
-            if(!cityRepository.existsByCity(newOrder.city)){
+            City tempCity = new City();
+            if (!cityRepository.existsByCity(newOrder.city)) {
                 tempCity.setCity(newOrder.city);
                 cityRepository.save(tempCity);
             }
-            if (!areaCodeRepository.existsByAreaCode(String.valueOf(newOrder.areaCode))){
+            if (!areaCodeRepository.existsByAreaCode(String.valueOf(newOrder.areaCode))) {
                 tempAreaCode.setAreaCode(String.valueOf(newOrder.areaCode));
                 areaCodeRepository.save(tempAreaCode);
             }
-            if (!addressRepository.existsByAddress(newOrder.address)){
+            if (!addressRepository.existsByAddress(newOrder.address)) {
                 tempAddress.setAddress(newOrder.address);
                 addressRepository.save(tempAddress);
             }
@@ -198,7 +197,7 @@ public class OrdersController {
             orders.setDeliveryAddress(addressRepository.findAddressByAddress(newOrder.address));
             tempCity = cityRepository.findCityBycity(newOrder.city);
             tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(String.valueOf(newOrder.areaCode));
-            tempAddress= addressRepository.findAddressByAddress(newOrder.address);
+            tempAddress = addressRepository.findAddressByAddress(newOrder.address);
             tempAreaCode.setCity(tempCity);
             tempAddress.setAreaCode(tempAreaCode);
 //            customer.setAddress(tempAddress);
@@ -308,26 +307,26 @@ public class OrdersController {
     }
 
     @GetMapping("/update")
-    public Message updateOrders(@RequestParam Long id, @RequestParam long statusid){
+    public Message updateOrders(@RequestParam Long id, @RequestParam long statusid) {
         try {
-            if(!ordersRepository.existsById(id)){
-//                throw new IllegalArgumentException("Order does not exist");
-            return new Message(false, "Order does not exist");}
-            else if (!orderStatusRepository.existsById(statusid))
+            if (!ordersRepository.existsById(id)) {
+                return new Message(false, "Order does not exist");
+            } else if (!orderStatusRepository.existsById(statusid))
                 return new Message(false, "OrderstatusID does not exist");
 
-                Orders oExisting = ordersRepository.findById(id).get();
-                oExisting.setOrderStatus(orderStatusRepository.findById(statusid).get());
-                ordersRepository.save(oExisting);
-                return new Message(true, String.format("%s updated", oExisting.getId()));
+            Orders existingOrders = ordersRepository.findById(id).get();
+            existingOrders.setOrderStatus(orderStatusRepository.findById(statusid).get());
+            ordersRepository.save(existingOrders);
+            return new Message(true, String.format("%s updated", existingOrders.getId()));
 
         } catch (Exception e) {
             e.printStackTrace();
             return new Message(false, "Error when processing.");
         }
     }
+
     @GetMapping("/allByStatus")
-    public   Iterable<Orders> findOrdersByStatus(@RequestParam long id){
+    public Iterable<Orders> findOrdersByStatus(@RequestParam long id) {
         return ordersRepository.findOrdersByOrderStatus(orderStatusRepository.findById(id).get());
     }
 
