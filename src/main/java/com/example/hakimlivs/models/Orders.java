@@ -33,15 +33,15 @@ public class Orders {
     @ManyToOne
     private Customer customer;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "deliveryoption_id",referencedColumnName = "id")
     private DeliveryOption deliveryOption;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "adress_id",referencedColumnName = "id")
     private Address deliveryAddress;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "order_id")
     private List<Order_Contains> productList;
 

@@ -154,7 +154,7 @@ public class OrdersController {
 
     }
 
-    @PostMapping(path = "/post-add")
+    @PostMapping(path = "/post-add" )
     public Message addOrdersByPost(@RequestBody OrderResponse newOrder) {
 
         for (var v : newOrder.products
@@ -306,6 +306,8 @@ public class OrdersController {
     public Iterable<Orders> getAllOrders() {
         return ordersRepository.findAll();
     }
+
+
 
 
 }

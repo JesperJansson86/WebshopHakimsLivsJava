@@ -30,7 +30,7 @@ public class ImageController {
         } else {
             if (productRepository.existsById(productId)) {
                 Image i = new Image();
-//                i.setProduct(productRepository.findById(productId).get());
+                i.setProduct(productRepository.findById(productId).get());
                 i.setImage(image);
                 imageRepository.save(i);
                 return String.format("%s has been added to product %s ", image, productId);

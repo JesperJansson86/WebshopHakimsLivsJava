@@ -94,7 +94,7 @@ public class Product {
     private Unit unit;
 
 
-    @OneToMany (cascade = {CascadeType.ALL})
+    @OneToMany (cascade = {CascadeType.PERSIST})
     @JoinColumn(name ="product_id")
     private List<Image> imageList;
 
