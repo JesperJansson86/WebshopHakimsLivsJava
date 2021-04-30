@@ -55,80 +55,6 @@ public class OrdersController {
     @Autowired
     CustomerService customerService;
 
-    @GetMapping(path = "/add")
-    public String addOrders(
-            @RequestParam LocalDate orderDate,
-            @RequestParam String orderStatus,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam Boolean loyalCustomer,
-            @RequestParam Boolean adminStatus,
-            @RequestParam String deliveryType,
-            @RequestParam double deliveryCost,
-            @RequestParam String address,
-            @RequestParam String areaCode,
-            @RequestParam String city,
-            @RequestParam String phoneNumber
-    ) {
-
-        City c = new City();
-        AreaCode ac = new AreaCode();
-        Address a = new Address();
-        OrderStatus oStatus = new OrderStatus();
-        DeliveryOption dOption = new DeliveryOption();
-        Customer customer = new Customer(firstName, lastName, a, phoneNumber, email, password, loyalCustomer, adminStatus);
-
-        if (cityRepository.findCityBycity(city) == null) {
-            c.setCity(city);
-            cityRepository.save(c);
-        } else {
-            c = cityRepository.findCityBycity(city);
-        }
-
-        if (areaCodeRepository.findAreaCodeByareaCode(areaCode) == null) {
-            ac.setAreaCode(areaCode);
-            ac.setCity(c);
-            areaCodeRepository.save(ac);
-        } else {
-            ac = areaCodeRepository.findAreaCodeByareaCode(areaCode);
-        }
-
-        if (addressRepository.findAddressByAddress(address) == null) {
-            a.setAddress(address);
-            a.setAreaCode(ac);
-            addressRepository.save(a);
-        } else {
-            a = addressRepository.findAddressByAddress(address);
-        }
-
-        if (orderStatusRepository.findStatusByOrderStatus(orderStatus) == null) {
-            oStatus.setOrderStatus(orderStatus);
-            orderStatusRepository.save(oStatus);
-        } else {
-            oStatus = orderStatusRepository.findStatusByOrderStatus(orderStatus);
-        }
-
-        if (customerRepository.findCustomerByEmail(email) == null) {
-            customerRepository.save(customer);
-        } else {
-            customer = customerRepository.findCustomerByEmail(email);
-        }
-
-        if (deliveryOptionRepository.findOptionByDeliveryType(deliveryType) == null) {
-            dOption.setDeliveryType(deliveryType);
-            dOption.setDeliveryCost(deliveryCost);
-            deliveryOptionRepository.save(dOption);
-        } else {
-            dOption = deliveryOptionRepository.findOptionByDeliveryType(deliveryType);
-        }
-
-        Orders orders = new Orders(orderDate, oStatus, customer, dOption, a);
-        ordersRepository.save(orders);
-        return "\nOrder added to " + firstName + " with delivery method " + deliveryType + " ";
-    }
-
     //Inner class
     @Data
     @NoArgsConstructor
@@ -151,10 +77,9 @@ public class OrdersController {
         String phoneNumber;
         int delivery_option_id;
         List<ProductResponse> products;
-
     }
 
-    @PostMapping(path = "/post-add")
+    @PostMapping(path = "/add")
     public Message addOrdersByPost(@RequestBody OrderResponse newOrder) {
 
         for (var v : newOrder.products
