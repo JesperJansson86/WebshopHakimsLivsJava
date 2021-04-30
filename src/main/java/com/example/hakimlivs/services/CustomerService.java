@@ -1,4 +1,4 @@
-package com.example.hakimlivs.controllers;
+package com.example.hakimlivs.services;
 
 import com.example.hakimlivs.models.Address;
 import com.example.hakimlivs.models.AreaCode;
@@ -10,6 +10,8 @@ import com.example.hakimlivs.repositories.CityRepository;
 import com.example.hakimlivs.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Locale;
 
 @Service
 public class CustomerService {
@@ -47,6 +49,10 @@ public class CustomerService {
             tempCity.setCity(city);
             cityRepository.save(tempCity);
         }
+
+        areaCode = areaCode.replace(" ","");
+        areaCode = areaCode.trim();
+
         if (areaCodeRepository.findAreaCodeByareaCode(areaCode) == null) {
             tempAreaCode.setAreaCode(areaCode);
             areaCodeRepository.save(tempAreaCode);

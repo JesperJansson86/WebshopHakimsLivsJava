@@ -2,6 +2,7 @@ package com.example.hakimlivs.controllers;
 
 import com.example.hakimlivs.models.*;
 import com.example.hakimlivs.repositories.*;
+import com.example.hakimlivs.services.CustomerService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -128,29 +129,6 @@ public class OrdersController {
         return "\nOrder added to " + firstName + " with delivery method " + deliveryType + " ";
     }
 
-    /*
-    JSON-mall:
-    {
-        "products" : [
-            {
-                "product_id" : 1,
-                "amount": 2
-            },
-            {
-                "product_id" : 2,
-                "amount": 5
-            }
-        ],
-        "delivery_option_id" : 1,
-        "firstName": "Jane",
-        "lastName": "Andresson",
-        "address": "Stadsgårdshamnen 22",
-        "areaCode" : 11645,
-        "city": "Stockholm",
-        "email": "jabari45@example.org",
-        "phoneNumber": "070-1740605"
-    }
-     */
     //Inner class
     @Data
     @NoArgsConstructor
@@ -167,7 +145,7 @@ public class OrdersController {
         String firstName;
         String lastName;
         String address;
-        int areaCode;
+        String areaCode;
         String city;
         String email;
         String phoneNumber;
@@ -184,7 +162,11 @@ public class OrdersController {
             Product product = productRepository.findById(v.getProduct_id()).get();
             int inventory = product.getInventory();
             if (inventory < v.getAmount()) {
-                return new Message(false, "Det finns inte nog utav " + product.getTitle() + " i lagret.");
+                return new Message(
+                        false,
+                        String.format("Det finns inte nog utav %s i lagret (%d kvar)",
+                                product.getTitle(),
+                                product.getInventory()));
             }
         }
 
