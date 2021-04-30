@@ -105,7 +105,7 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(@RequestBody Product p){
 
-        if(p.getId().equals(getProductById(p.getId()).getId())){
+        if(!p.getId().equals(getProductById(p.getId()).getId())){
             addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getBrand(), p.getCategory().getCategory(), p.getUnit().getUnit(), p.isVisibility());
             return "Product created";
         }
@@ -120,6 +120,7 @@ public class ProductController {
             updateP.setCategory(categoryRepo.findById(p.getCategory().getId()).get());
             updateP.setUnit(unitRepo.findById(p.getUnit().getId()).get());
             updateP.setVisibility(p.isVisibility());
+            productRepo.save(updateP);
 
             return "Product updated";
         }

@@ -29,8 +29,8 @@ public class CategoryController {
         }
     }
 
-    @PostMapping("/uprest")
-    public Message uprestCategory(@RequestBody Category c){
+    @PostMapping("/update")
+    public Message updateCategory(@RequestBody Category c){
         try {
             if(c.getCategory() == null || c.getId() == null)
                 throw new IllegalArgumentException("Missing parameter in object");
@@ -38,14 +38,19 @@ public class CategoryController {
                 Category cExisting = categoryRepository.findById(c.getId()).get();
                 cExisting.setCategory(c.getCategory());
                 categoryRepository.save(cExisting);
-                return new Message(true, String.format("%s updated: ID already exists.", c.getCategory()));
+                return new Message(true, String.format("%s updated", c.getCategory()));
             } else {
                 categoryRepository.save(c);
-                return new Message(true, String.format("%s created: ID not found.", c.getCategory()));
+                return new Message(true, String.format("%s created", c.getCategory()));
             }
         } catch (Exception e) {
             e.printStackTrace();
             return new Message(false, "Error when processing.");
         }
+    }
+    @GetMapping(path ="/deleteById")
+    public String deleteCategorytById(@RequestParam Long id){
+        categoryRepository.deleteById(id);
+        return String.format("Category with id: %s has been deleted", id);
     }
 }
