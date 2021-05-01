@@ -18,8 +18,8 @@ public class Unit {
     private String unit;
     private String longUnit;
 
-    @OneToMany (cascade = {CascadeType.PERSIST})//@OneToMany (cascade = {CascadeType.DETACH})
-    @JoinColumn(name = "product_id") // unit_id
+    @OneToMany(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "product_id")
     @JsonBackReference
     private List<Product> products;
 

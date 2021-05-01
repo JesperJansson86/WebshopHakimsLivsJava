@@ -14,15 +14,8 @@ public class DeliveryOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    /**
-     * typen av delivery
-     */
     private String deliveryType;
 
-    /**
-     * Konstnaden av att skicka ordern till kunden
-     * om kunden hämntar från butiken så är kostnaden 0
-     */
     private double deliveryCost;
 
     public DeliveryOption(String deliveryType, double deliveryCost) {

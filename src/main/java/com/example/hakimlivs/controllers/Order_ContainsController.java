@@ -26,9 +26,9 @@ public class Order_ContainsController {
         return "\norder_Contains has been added! ";
     }
 
-    @GetMapping(path ="/byId")
-    public Order_Contains getorder_ContainsById(@RequestParam Long id){
-        return Order_ContainsRepository.findById(id).get();
+    @GetMapping(path = "/findById")
+    public Order_Contains getorder_ContainsById(@RequestParam Long id) {
+        return order_ContainsRepository.findById(id).get();
     }
 
     @GetMapping(path = "/all")

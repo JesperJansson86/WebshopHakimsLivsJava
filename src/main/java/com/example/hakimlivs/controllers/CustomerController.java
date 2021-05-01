@@ -73,8 +73,8 @@ public class CustomerController {
         return String.format("Kunden %s %s has been added", firstname, lastname);
     }
 
-    @GetMapping(path ="/byId")
-    public Customer getCustomerById(@RequestParam Long id){
+    @GetMapping(path = "/findById")
+    public Customer getCustomerById(@RequestParam Long id) {
         return customerRepository.findById(id).get();
     }
 

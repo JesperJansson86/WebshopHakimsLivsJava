@@ -51,9 +51,9 @@ public class StoreController {
         return "the Store has been added!";
     }
 
-    @GetMapping(path ="/byId")
-    public Store getStoreById(@RequestParam Long id)throws NotFoundException {
-        if(storeRepository.findById(id).isPresent()){
+    @GetMapping(path = "/findById")
+    public Store getStoreById(@RequestParam Long id) throws NotFoundException {
+        if (storeRepository.findById(id).isPresent()) {
             return storeRepository.findById(id).get();
         } else {
             throw new NotFoundException("Item by that id was not found");

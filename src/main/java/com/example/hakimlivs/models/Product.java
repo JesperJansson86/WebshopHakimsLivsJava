@@ -11,10 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Product {
 
-    /**
-     * idn av produkten (primary key från databasen)
-     * Om värdet inte sätts så är dens standard värdet 0
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,28 +19,12 @@ public class Product {
 
     private String description = "";
 
-    /**
-     * Priset av produkten
-     * Om värdet inte sätts så är dens standard värdet 0
-     */
     private double price = 0;
 
-    /**
-     * Lagerstatus av produkten
-     * Om värdet inte sätts så är dens standard värdet 0
-     */
     private int inventory = 0;
 
-    /**
-     * Antal av items i produkten
-     * Om värdet inte sätts så är dens standard värdet 0
-     */
     private int quantity = 0;
 
-    /**
-     * Storeleks typ av produkten
-     * Om värdet inte sätts så är dens standard värdet 0
-     */
     private double size = 0.0;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
@@ -63,16 +43,7 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<Image> imageList;
 
-//    @OneToMany (mappedBy ="image",cascade = {CascadeType.ALL})
-//    @JoinColumn(name ="image_id")
-//    private List<Image> imageList;
-
-    /**
-     * Boolean som sätter om produkten ska vara synlig eller inte
-     * Om värdet inte sätts så är dens standard värdet false
-     */
     private boolean visibility = false;
-
 
     public Product(String title, String description, double price, int inventory, int quantity, int size, Brand brand, Category category, Unit unit, boolean visibility) {
         this.title = title;

@@ -25,8 +25,11 @@ public class BrandController {
         brandRepository.save(b);
         return String.format("%s has been added", brand);
     }
-    @GetMapping(path="/byId")
-    public Brand getBrandById(@RequestParam long id){ return brandRepo.findById(id).get();}
+
+    @GetMapping(path = "/findById")
+    public Brand getBrandById(@RequestParam long id) {
+        return brandRepository.findById(id).get();
+    }
 
     @GetMapping(path = "/all")
     public Iterable<Brand> getAllBrand() {

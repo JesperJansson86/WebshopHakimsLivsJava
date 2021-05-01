@@ -1,7 +1,6 @@
 package com.example.hakimlivs.repositories;
 
 import com.example.hakimlivs.models.Brand;
-import com.example.hakimlivs.models.Category;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

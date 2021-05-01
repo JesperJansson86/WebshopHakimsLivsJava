@@ -1,9 +1,7 @@
 package com.example.hakimlivs.controllers;
 
 import com.example.hakimlivs.models.Image;
-import com.example.hakimlivs.models.AreaCode;
 import com.example.hakimlivs.repositories.ImageRepository;
-import com.example.hakimlivs.repositories.AreaCodeRepository;
 import com.example.hakimlivs.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +23,7 @@ public class ImageController {
             @RequestParam String image,
             @RequestParam Long productId
     ) {
-        if (productRepository.existsById(productId)/*&&productRepository.existsByimageList(image)*/) {
+        if (productRepository.existsById(productId)) {
             return "Denna bild finns redan registrerad på denna produkt.";
         } else {
             if (productRepository.existsById(productId)) {
@@ -38,7 +36,7 @@ public class ImageController {
         }
     }
 
-    @GetMapping(path = "/byId")
+    @GetMapping(path = "/findById")
     public Image getImageById(@RequestParam Long id) {
         return imageRepository.findById(id).get();
     }

@@ -154,7 +154,7 @@ public class OrdersController {
         return new Message(true, "Order added");
     }
 
-    @GetMapping(path = "/byId")
+    @GetMapping(path = "/findById")
     public Orders getOrdersById(@RequestParam long id) throws NotFoundException {
         if (ordersRepository.findById(id).isPresent()) {
             return ordersRepository.findById(id).get();

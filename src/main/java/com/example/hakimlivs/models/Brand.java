@@ -21,7 +21,7 @@ public class Brand {
     @OneToMany(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "brand_id")
     @JsonBackReference
-    private List<Product> products; // private List<Product> products;
+    private List<Product> products;
 
     public Brand(String brand) {
         this.brand = brand;

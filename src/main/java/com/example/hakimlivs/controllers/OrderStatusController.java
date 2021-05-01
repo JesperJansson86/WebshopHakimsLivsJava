@@ -25,8 +25,8 @@ public class OrderStatusController {
         return "\nOrderStatus has been added! ";
     }
 
-    @GetMapping(path ="/byId")
-    public OrderStatus getOrderStatusById(@RequestParam Long id){
+    @GetMapping(path = "/findById")
+    public OrderStatus getOrderStatusById(@RequestParam Long id) {
         return orderStatusRepository.findById(id).get();
     }
 

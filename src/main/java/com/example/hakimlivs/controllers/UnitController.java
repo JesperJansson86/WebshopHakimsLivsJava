@@ -29,7 +29,7 @@ public class UnitController {
         }
     }
 
-    @GetMapping(path="/byId")
+    @GetMapping(path = "/findById")
     public Unit getUnitById(@RequestParam long id) throws NotFoundException {
         if (unitRepository.findById(id).isPresent()) {
             return unitRepository.findById(id).get();
