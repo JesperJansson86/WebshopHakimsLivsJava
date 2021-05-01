@@ -1,6 +1,5 @@
 package com.example.hakimlivs.controllers;
 
-
 import com.example.hakimlivs.models.Image;
 import com.example.hakimlivs.models.AreaCode;
 import com.example.hakimlivs.repositories.ImageRepository;
@@ -13,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = ("/api/Image"))
+@RequestMapping(path = ("/api/image"))
 public class ImageController {
+
     @Autowired
     ImageRepository imageRepository;
     @Autowired
@@ -36,7 +36,6 @@ public class ImageController {
                 return String.format("%s has been added to product %s ", image, productId);
             } else return "Product id not found.";
         }
-
     }
 
     @GetMapping(path = "/byId")

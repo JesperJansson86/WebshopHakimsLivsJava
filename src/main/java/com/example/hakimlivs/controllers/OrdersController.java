@@ -13,43 +13,28 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by Lukas Aronsson
- * Date: 19/04/2021
- * Time: 13:23
- * Project: WebshopHakimsLivsJava
- * Copyright: MIT
- **/
 @RestController
 @RequestMapping(path = ("/api/orders"))
 public class OrdersController {
+
     @Autowired
     OrdersRepository ordersRepository;
-
     @Autowired
     CityRepository cityRepository;
-
     @Autowired
     AreaCodeRepository areaCodeRepository;
-
     @Autowired
     AddressRepository addressRepository;
-
     @Autowired
     OrderStatusRepository orderStatusRepository;
-
     @Autowired
     CustomerRepository customerRepository;
-
     @Autowired
     DeliveryOptionRepository deliveryOptionRepository;
-
     @Autowired
     ProductRepository productRepository;
-
     @Autowired
     Order_ContainsRepository order_containsRepository;
-
     @Autowired
     CustomerService customerService;
 
@@ -240,6 +225,4 @@ public class OrdersController {
     public Iterable<Orders> findOrdersByStatus(@RequestParam long id) {
         return ordersRepository.findOrdersByOrderStatus(orderStatusRepository.findById(id).get());
     }
-
-
 }

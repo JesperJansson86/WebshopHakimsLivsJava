@@ -1,6 +1,5 @@
 package com.example.hakimlivs.controllers;
 
-
 import com.example.hakimlivs.models.Address;
 import com.example.hakimlivs.repositories.AddressRepository;
 import com.example.hakimlivs.repositories.AreaCodeRepository;
@@ -13,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = ("/api/address"))
 public class AddressController {
+
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
     AreaCodeRepository areaCodeRepository;
 
     @GetMapping(path = "/add")

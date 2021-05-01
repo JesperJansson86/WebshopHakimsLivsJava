@@ -15,9 +15,7 @@ public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-     
     private String unit;
-     
     private String longUnit;
 
     @OneToMany (cascade = {CascadeType.PERSIST})//@OneToMany (cascade = {CascadeType.DETACH})

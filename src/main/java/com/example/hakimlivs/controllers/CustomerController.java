@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = ("/api/customer"))
 public class CustomerController {
-@Autowired
+
+    @Autowired
     CustomerRepository customerRepository;
-@Autowired
+    @Autowired
     AddressRepository addressRepository;
-@Autowired
-AreaCodeRepository areaCodeRepository;
-@Autowired
+    @Autowired
+    AreaCodeRepository areaCodeRepository;
+    @Autowired
     CityRepository cityRepository;
 
     @GetMapping(path = "/add")
@@ -34,7 +35,7 @@ AreaCodeRepository areaCodeRepository;
             @RequestParam String address,
             @RequestParam String areaCode,
             @RequestParam String city
-    ){
+    ) {
         Customer customer = new Customer();
         customer.setFirstName(firstname);
         customer.setLastName(lastname);
@@ -44,23 +45,23 @@ AreaCodeRepository areaCodeRepository;
         customer.setAdminStatus(adminStatus);
         Address tempAddress = new Address();
         AreaCode tempAreaCode = new AreaCode();
-        City tempCity   = new City();
-        if(cityRepository.findCityBycity(city)==null){
+        City tempCity = new City();
+        if (cityRepository.findCityBycity(city) == null) {
             tempCity.setCity(city);
             cityRepository.save(tempCity);
         }
-        if (areaCodeRepository.findAreaCodeByareaCode(areaCode)==null){
+        if (areaCodeRepository.findAreaCodeByareaCode(areaCode) == null) {
             tempAreaCode.setAreaCode(areaCode);
             areaCodeRepository.save(tempAreaCode);
         }
-        if (addressRepository.findAddressByAddress(address)==null){
+        if (addressRepository.findAddressByAddress(address) == null) {
             tempAddress.setAddress(address);
             addressRepository.save(tempAddress);
         }
         customer.setAddress(addressRepository.findAddressByAddress(address));
         tempCity = cityRepository.findCityBycity(city);
         tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(areaCode);
-        tempAddress= addressRepository.findAddressByAddress(address);
+        tempAddress = addressRepository.findAddressByAddress(address);
         tempAreaCode.setCity(tempCity);
         tempAddress.setAreaCode(tempAreaCode);
         customer.setAddress(tempAddress);
@@ -78,7 +79,7 @@ AreaCodeRepository areaCodeRepository;
     }
 
     @GetMapping(path = "/all")
-    public Iterable<Customer> getAllCustomers(){
+    public Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 

@@ -19,5 +19,4 @@ public class OrderStatus {
     public OrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
-
 }

@@ -59,7 +59,6 @@ public class Product {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-
     @OneToMany(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "product_id")
     private List<Image> imageList;

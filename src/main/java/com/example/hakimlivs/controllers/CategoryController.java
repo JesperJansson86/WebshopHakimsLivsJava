@@ -9,17 +9,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = ("/api/category"))
 public class CategoryController {
+
     @Autowired
     CategoryRepository categoryRepository;
 
     @GetMapping(path = "/all")
-    public Iterable<Category> getAllCategories(){
+    public Iterable<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
     @GetMapping(path = "/add")
-    public String addCategory(@RequestParam String category){
-        if(categoryRepository.findCategoryBycategory(category).isPresent()){
+    public String addCategory(@RequestParam String category) {
+        if (categoryRepository.findCategoryBycategory(category).isPresent()) {
             return String.format("%s finns redan i databas.", category);
         } else {
             Category c = new Category();
@@ -30,11 +31,11 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    public Message updateCategory(@RequestBody Category c){
+    public Message updateCategory(@RequestBody Category c) {
         try {
-            if(c.getCategory() == null || c.getId() == null)
+            if (c.getCategory() == null || c.getId() == null)
                 throw new IllegalArgumentException("Missing parameter in object");
-            if(categoryRepository.existsById(c.getId())){
+            if (categoryRepository.existsById(c.getId())) {
                 Category cExisting = categoryRepository.findById(c.getId()).get();
                 cExisting.setCategory(c.getCategory());
                 categoryRepository.save(cExisting);
@@ -48,8 +49,9 @@ public class CategoryController {
             return new Message(false, "Error when processing.");
         }
     }
-    @GetMapping(path ="/deleteById")
-    public String deleteCategorytById(@RequestParam Long id){
+
+    @GetMapping(path = "/deleteById")
+    public String deleteCategorytById(@RequestParam Long id) {
         categoryRepository.deleteById(id);
         return String.format("Category with id: %s has been deleted", id);
     }

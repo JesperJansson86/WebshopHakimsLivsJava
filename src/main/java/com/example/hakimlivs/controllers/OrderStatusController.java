@@ -8,23 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by Lukas Aronsson
- * Date: 19/04/2021
- * Time: 13:07
- * Project: WebshopHakimsLivsJava
- * Copyright: MIT
- **/
 @RestController
 @RequestMapping(path = ("/api/orderstatus"))
 public class OrderStatusController {
+
     @Autowired
     OrderStatusRepository orderStatusRepository;
 
     @GetMapping(path = "/add")
     public String addOrderStatus(
             @RequestParam String orderStatus
-    ){
+    ) {
         OrderStatus oStatus = new OrderStatus(orderStatus);
 
         orderStatusRepository.save(oStatus);
@@ -37,8 +31,7 @@ public class OrderStatusController {
     }
 
     @GetMapping(path = "/all")
-    public Iterable<OrderStatus> getAllOrderStatus(){
+    public Iterable<OrderStatus> getAllOrderStatus() {
         return orderStatusRepository.findAll();
     }
-
 }

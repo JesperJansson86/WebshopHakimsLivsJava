@@ -8,13 +8,6 @@ import com.example.hakimlivs.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by David Hedman <br>
- * Date: 2021-04-19 <br>
- * Time: 09:38 <br>
- * Project: hakimLivs <br>
- * Copyright: Nackademin <br>
- */
 @RestController
 @RequestMapping(path = ("/api/product"))
 public class ProductController {
@@ -28,8 +21,6 @@ public class ProductController {
     @Autowired
     private UnitRepository unitRepo;
 
-
-
     @GetMapping(path = "/add")
     public String addProduct(
             @RequestParam String title,
@@ -42,7 +33,7 @@ public class ProductController {
             @RequestParam String category,
             @RequestParam String unit,
             @RequestParam boolean visibility
-    ){
+    ) {
         Product p = new Product();
         p.setTitle(title);
         p.setDescription(description);
@@ -51,29 +42,27 @@ public class ProductController {
         p.setQuantity(quantity);
         p.setSize(size);
 
-
-        if(brandRepo.existsByBrand(brand)){
+        // Om id till Brand inte finns kommer ett nytt Brand att skapas upp.
+        if (brandRepo.existsByBrand(brand)) {
             p.setBrand(brandRepo.findByBrand(brand).get());
-        }
-        else{
-                    Brand b = new Brand();
-                    b.setBrand(brand);
-                    p.setBrand(b);
+        } else {
+            Brand b = new Brand();
+            b.setBrand(brand);
+            p.setBrand(b);
         }
 
-        if(categoryRepo.existsByCategory(category)){
+        // Om id till Category inte finns kommer ett nytt Category att skapas upp.
+        if (categoryRepo.existsByCategory(category)) {
             p.setCategory(categoryRepo.findCategoryBycategory(category).get());
-        }
-        else{
+        } else {
             Category c = new Category();
             c.setCategory(category);
             p.setCategory(c);
         }
-
-        if(unitRepo.existsByUnit(unit)){
+        // Om id till Unit inte finns kommer ett nytt Unit att skapas upp.
+        if (unitRepo.existsByUnit(unit)) {
             p.setUnit(unitRepo.findByUnit(unit).get());
-        }
-        else{
+        } else {
             Unit u = new Unit();
             u.setUnit(unit);
             p.setUnit(u);
@@ -83,33 +72,32 @@ public class ProductController {
         productRepo.save(p);
 
         return String.format("%s has been added", title);
-
     }
 
-    @GetMapping(path ="/byId")
-    public Product getProductById(@RequestParam Long id){
+    @GetMapping(path = "/findById")
+    public Product getProductById(@RequestParam Long id) {
         return productRepo.findById(id).get();
     }
 
-    @GetMapping(path ="/deleteById")
-    public String deleteProductById(@RequestParam Long id){
+    @GetMapping(path = "/deleteById")
+    public String deleteProductById(@RequestParam Long id) {
         productRepo.deleteById(id);
         return String.format("Product with id:%s has been deleted", id);
     }
 
     @GetMapping(path = "/all")
-    public Iterable<Product> getAllProducts(){
+    public Iterable<Product> getAllProducts() {
         return productRepo.findAll();
     }
 
     @PostMapping("/update")
-    public String updateProduct(@RequestBody Product p){
+    public String updateProduct(@RequestBody Product p) {
 
-        if(!p.getId().equals(getProductById(p.getId()).getId())){
+        // Om id till produkten inte finns kommer produkten att skapas upp, annars uppdateras produkten.
+        if (!p.getId().equals(getProductById(p.getId()).getId())) {
             addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getBrand(), p.getCategory().getCategory(), p.getUnit().getUnit(), p.isVisibility());
             return "Product created";
-        }
-        else{
+        } else {
             Product updateP = getProductById(p.getId());
             updateP.setTitle(p.getTitle());
             updateP.setDescription(p.getDescription());
@@ -124,7 +112,5 @@ public class ProductController {
 
             return "Product updated";
         }
-
     }
-
 }
