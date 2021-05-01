@@ -1,14 +1,15 @@
 package com.example.hakimlivs.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public @Data class Message {
+@Data
+@NoArgsConstructor
+public class Message {
     private boolean success;
     private String message;
 
-    public Message(){}
-
-    public Message(boolean success, String message){
+    public Message(boolean success, String message) {
         this.success = success;
         this.message = message;
     }

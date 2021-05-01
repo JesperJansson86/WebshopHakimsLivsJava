@@ -1,22 +1,12 @@
 package com.example.hakimlivs.models;
 
-import com.example.hakimlivs.repositories.OrderStatusRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.criterion.Order;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by Lukas Aronsson
- * Date: 14/04/2021
- * Time: 16:25
- * Project: WebshopHakimsLivs
- * Copyright: MIT
- **/
 @Data
 @Entity
 @NoArgsConstructor
@@ -25,7 +15,7 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-     
+
     private LocalDate orderDate;
 
     @ManyToOne
@@ -34,11 +24,11 @@ public class Orders {
     private Customer customer;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "deliveryoption_id",referencedColumnName = "id")
+    @JoinColumn(name = "deliveryoption_id", referencedColumnName = "id")
     private DeliveryOption deliveryOption;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "adress_id",referencedColumnName = "id")
+    @JoinColumn(name = "adress_id", referencedColumnName = "id")
     private Address deliveryAddress;
 
     @OneToMany(cascade = {CascadeType.PERSIST})

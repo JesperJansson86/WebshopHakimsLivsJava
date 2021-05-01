@@ -1,23 +1,11 @@
 package com.example.hakimlivs.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
-/*
- * Created by Lukas Aronsson
- * Date: 07/04/2021
- * Time: 11:51
- * Project: WebshopHakimsLivs
- * Copyright: MIT
- */
-
-/**
- * Objekt representation av Product tabellen i från databasen
- */
 @Data
 @Entity
 @NoArgsConstructor
@@ -31,18 +19,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * namnet på produkten
-     * Om värdet inte sätts så är dens standard värdet ""
-     */
-     
     private String title = "";
 
-    /**
-     * beskrivning av produkten
-     * Om värdet inte sätts så är dens standard värdet ""
-     */
-     
     private String description = "";
 
     /**
@@ -73,25 +51,17 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    /**
-     * Kategorin som produkten är en del av
-     */
-
-    @ManyToOne (cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "category_id")
     private Category category;
 
-    /**
-     * Enheten som produkten är räknad från
-     */
-
-    @ManyToOne (cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
 
-    @OneToMany (cascade = {CascadeType.PERSIST})
-    @JoinColumn(name ="product_id")
+    @OneToMany(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "product_id")
     private List<Image> imageList;
 
 //    @OneToMany (mappedBy ="image",cascade = {CascadeType.ALL})
@@ -117,6 +87,7 @@ public class Product {
         this.unit = unit;
         this.visibility = visibility;
     }
+
     public Product(String title, String description, double price, int inventory, int quantity, int size, Brand brand, Category category, Unit unit, boolean visibility, List image) {
         this.title = title;
         this.description = description;

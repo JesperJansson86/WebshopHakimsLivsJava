@@ -5,14 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-/**
- * Created by Lukas Aronsson
- * Date: 14/04/2021
- * Time: 16:21
- * Project: WebshopHakimsLivs
- * Copyright: MIT
- **/
-
 @Data
 @Entity
 @NoArgsConstructor

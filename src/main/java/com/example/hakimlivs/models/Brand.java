@@ -7,13 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-/*
- * Created by Lukas Aronsson
- * Date: 14/04/2021
- * Time: 16:03
- * Project: WebshopHakimsLivs
- * Copyright: MIT
- */
 @Data
 @Entity
 @NoArgsConstructor
@@ -25,7 +18,7 @@ public class Brand {
 
     private String brand;
 
-    @OneToMany (cascade = {CascadeType.PERSIST}) // @OneTOMany , DETACH
+    @OneToMany(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "brand_id")
     @JsonBackReference
     private List<Product> products; // private List<Product> products;

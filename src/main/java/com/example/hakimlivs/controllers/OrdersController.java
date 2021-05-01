@@ -8,11 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,7 +73,7 @@ public class OrdersController {
         String city;
         String email;
         String phoneNumber;
-        int delivery_option_id;
+        Long delivery_option_id;
         List<ProductResponse> products;
     }
 
@@ -167,21 +165,6 @@ public class OrdersController {
             oc.setProductAmount(orderedProduct.getAmount());
             order_containsRepository.save(oc);
         });
-
-//  public Orders(
-//      LocalDate orderDate,            default: Localdate.now()
-//      OrderStatus orderStatus,        default: findbyID1
-//      Customer customer,              notnull
-//      DeliveryOption deliveryOption,  notnull
-//      Address deliveryAddress         nullable (om ingen leverans ska ske)
-//      )
-
-//        String combinedproducts = "";
-//        for (ProductResponse product : newOrder.products) {
-//            combinedproducts += product.product_id + ":" + product.amount + " ";
-//        }
-//        return new Message(false, "something went wrong ("+combinedproducts+")");
-
 
         return new Message(true, "Order added");
     }

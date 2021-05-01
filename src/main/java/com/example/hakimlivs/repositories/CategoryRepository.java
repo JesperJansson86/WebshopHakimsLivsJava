@@ -7,9 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     public Optional<Category> findCategoryBycategory(String category);
-
-   public boolean existsByCategory (String category);
+    public boolean existsByCategory(String category);
 }
