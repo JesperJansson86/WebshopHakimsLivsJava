@@ -1,12 +1,13 @@
 package com.example.hakimlivs.controllers;
 
 import com.example.hakimlivs.models.*;
-import com.example.hakimlivs.repositories.BrandRepository;
-import com.example.hakimlivs.repositories.CategoryRepository;
-import com.example.hakimlivs.repositories.ProductRepository;
-import com.example.hakimlivs.repositories.UnitRepository;
+import com.example.hakimlivs.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(path = ("/api/product"))
@@ -20,6 +21,8 @@ public class ProductController {
     private CategoryRepository categoryRepo;
     @Autowired
     private UnitRepository unitRepo;
+    @Autowired
+    private ImageRepository imageRepo;
 
     @GetMapping(path = "/add")
     public String addProduct(
