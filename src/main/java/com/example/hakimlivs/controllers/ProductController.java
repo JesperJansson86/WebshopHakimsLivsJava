@@ -32,7 +32,8 @@ public class ProductController {
             @RequestParam String brand,
             @RequestParam String category,
             @RequestParam String unit,
-            @RequestParam boolean visibility
+            @RequestParam boolean visibility,
+            @RequestParam (defaultValue = "noimage.jpg", required = false) String image
     ) {
         Product p = new Product();
         p.setTitle(title);
@@ -67,7 +68,9 @@ public class ProductController {
             u.setUnit(unit);
             p.setUnit(u);
         }
+        imageRepo.save(new Image(image,p));
         p.setVisibility(visibility);
+
 
         productRepo.save(p);
 
@@ -94,8 +97,10 @@ public class ProductController {
     public String updateProduct(@RequestBody Product p) {
 
         // Om id till produkten inte finns kommer produkten att skapas upp, annars uppdateras produkten.
-        if (!p.getId().equals(getProductById(p.getId()).getId())) {
-            addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getBrand(), p.getCategory().getCategory(), p.getUnit().getUnit(), p.isVisibility());
+
+
+        if (!productRepo.existsById(p.getId())) {
+            addProduct(p.getTitle(), p.getDescription(), p.getPrice(), p.getInventory(), p.getQuantity(), p.getSize(), p.getBrand().getBrand(), p.getCategory().getCategory(), p.getUnit().getUnit(), p.isVisibility(), p.getImageList().get(0).getImage());
             return "Product created";
         } else {
             Product updateP = getProductById(p.getId());
@@ -108,7 +113,10 @@ public class ProductController {
             updateP.setCategory(categoryRepo.findById(p.getCategory().getId()).get());
             updateP.setUnit(unitRepo.findById(p.getUnit().getId()).get());
             updateP.setVisibility(p.isVisibility());
+            updateP.setImageList(p.getImageList());
+            System.out.println(p.getImageList());
             productRepo.save(updateP);
+
 
             return "Product updated";
         }

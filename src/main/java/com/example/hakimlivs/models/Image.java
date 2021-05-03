@@ -1,5 +1,6 @@
 package com.example.hakimlivs.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,9 @@ public class Image {
     private Long id;
     private String image;
 
-    @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.DETACH})
-    @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "product_id")
     private Product product;
 
     public Image(String image, Product product) {

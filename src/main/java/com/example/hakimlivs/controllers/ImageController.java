@@ -1,13 +1,12 @@
 package com.example.hakimlivs.controllers;
 
+import com.example.hakimlivs.models.Category;
 import com.example.hakimlivs.models.Image;
+import com.example.hakimlivs.models.Message;
 import com.example.hakimlivs.repositories.ImageRepository;
 import com.example.hakimlivs.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = ("/api/image"))
@@ -23,8 +22,8 @@ public class ImageController {
             @RequestParam String image,
             @RequestParam Long productId
     ) {
-        if (productRepository.existsById(productId)) {
-            return "Denna bild finns redan registrerad på denna produkt.";
+        if (imageRepository.existsByimage(image)) {
+            return "Denna bild finns redan registrerad.";
         } else {
             if (productRepository.existsById(productId)) {
                 Image i = new Image();
@@ -50,6 +49,25 @@ public class ImageController {
     public String deleteImageById(@RequestParam Long id) {
         imageRepository.deleteById(id);
         return String.format("Image with id: %s has been deleted", id);
+    }
+    @PostMapping("/update")
+    public Message updateImage(@RequestBody Image c) {
+        try {
+            if (c.getImage() == null || c.getId() == null)
+                throw new IllegalArgumentException("Missing parameter in object");
+            if (imageRepository.existsById(c.getId())) {
+                Image iExisting = imageRepository.findById(c.getId()).get();
+                iExisting.setImage(c.getImage());
+                imageRepository.save(iExisting);
+                return new Message(true, String.format("%s updated", c.getImage()));
+            } else {
+                imageRepository.save(c);
+                return new Message(true, String.format("%s created", c.getImage()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(false, "Error when processing.");
+        }
     }
 }
 
