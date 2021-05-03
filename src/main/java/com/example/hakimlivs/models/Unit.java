@@ -19,7 +19,7 @@ public class Unit {
     private String longUnit;
 
     @OneToMany(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "unit_id")
     @JsonBackReference
     private List<Product> products;
 

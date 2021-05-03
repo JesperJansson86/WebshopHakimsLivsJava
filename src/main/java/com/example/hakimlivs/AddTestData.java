@@ -57,14 +57,12 @@ public class AddTestData implements CommandLineRunner {
             addCategories();
             addOrderStatus();
             addDeliveryOptions();
-            addProducts(); // breaks in here
+            addProducts();
             addImages();
             addOrders();
             addOrder_Contains();
         } catch (Exception e) {
-            System.out.println("Products not updating correctly implementing 2nd time.. maybe no worries\n" +
-                    "Let's call it Error: No error?");
-//            e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
