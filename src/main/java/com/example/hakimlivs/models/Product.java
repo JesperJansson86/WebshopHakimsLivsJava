@@ -1,5 +1,6 @@
 package com.example.hakimlivs.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -41,8 +42,13 @@ public class Product {
 
 //    @OneToMany(cascade = {CascadeType.PERSIST})
 //    @JoinColumn(name = "product_id")
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy ="product")
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy ="product")
     private List<Image> imageList;
+
+    @JsonIgnore
+    @OneToMany(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "product_id")
+    private List<Order_Contains> productList;
 
     private boolean visibility = false;
 

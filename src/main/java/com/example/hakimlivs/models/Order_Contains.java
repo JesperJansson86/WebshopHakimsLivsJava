@@ -16,10 +16,11 @@ public class Order_Contains {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Orders order;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
     private int productAmount;
