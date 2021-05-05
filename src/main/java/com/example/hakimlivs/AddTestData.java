@@ -48,6 +48,9 @@ public class AddTestData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
+            for(City city: cityRepo.findAll()){
+                return;
+            }
             addCities();
             addAreaCodes();
             addAddresses();
