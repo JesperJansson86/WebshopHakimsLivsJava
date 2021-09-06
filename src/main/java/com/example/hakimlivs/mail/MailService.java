@@ -20,14 +20,14 @@ public class MailService {
         String sendUrl = this.url + "mail/send";
 
         //temp json!!!! (twilio example json-body) currently replaces json input
-        json = "{\"personalizations\":[{\"to\":[{\"email\":\"john.doe@example.com\",\"name\":\"John Doe\"}],\"subject\":\"Hello, World!\"}],\"content\": [{\"type\": \"text/plain\", \"value\": \"Heya!\"}],\"from\":{\"email\":\"sam.smith@example.com\",\"name\":\"Sam Smith\"},\"reply_to\":{\"email\":\"sam.smith@example.com\",\"name\":\"Sam Smith\"}}";
+        json = "{\"personalizations\":[{\"to\":[{\"email\":\"Hakimslives@gmail.com\",\"name\":\"Hakim Test\"}],\"subject\":\"Mail Test!\"}],\"content\":\"Content Test\" [{\"type\": \"text/plain\", \"value\": \"Heya!\"}],\"from\":{\"email\":\"Hakimslives@gmail.com\",\"name\":\"HakimsLivs\"},\"reply_to\":{\"email\":\"Hakimslives@gmail.com\",\"name\":\"HakimsLivs\"}}";
 
         Headers headers = new Headers.Builder()
                 .add("Authorization", "Bearer "+ apiKey)
                 .add("Content-Type", "application/json")
                 .build();
 
-        String temp = Connection.httpRequest(sendUrl,"POST",json,headers);
+        String temp = Connection.httpRequest(sendUrl,"POST", json, headers);
 
         System.out.println("POST Request:\n" + temp);
     }
