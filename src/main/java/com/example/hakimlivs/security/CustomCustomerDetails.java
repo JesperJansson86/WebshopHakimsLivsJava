@@ -27,8 +27,8 @@ public class CustomCustomerDetails implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String customerRole = "Customer";
-        String adminRole = "Admin";
+        String customerRole = "CUSTOMER";
+        String adminRole = "ADMIN";
         String role;
 
         if(customer.getAdminStatus()){

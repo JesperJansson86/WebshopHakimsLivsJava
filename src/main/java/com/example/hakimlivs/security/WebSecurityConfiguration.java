@@ -29,7 +29,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider provider
                 = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        //Tillfällig password encoder class för att kringgå kryptering
+        provider.setPasswordEncoder(new PasswordEnconderTest());
         return provider;
     }
 
@@ -38,10 +39,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/home").hasAuthority("USER")
+                .antMatchers("/api/*").permitAll()
+                .antMatchers("/home").hasAuthority("CUSTOMER")
                 .antMatchers("/admin").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .and()
