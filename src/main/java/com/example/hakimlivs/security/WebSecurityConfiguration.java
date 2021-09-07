@@ -46,9 +46,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and()
-                .logout().clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessUrl("/admin")
+                .httpBasic()
                 .and()
-                .httpBasic();
+                .logout().clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessUrl("/admin");
     }
 }
