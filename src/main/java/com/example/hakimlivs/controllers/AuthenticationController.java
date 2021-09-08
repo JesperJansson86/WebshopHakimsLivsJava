@@ -56,8 +56,4 @@ public class AuthenticationController {
         return  new JwtResponse(token);
     }
 
-    @GetMapping("/secretkey")
-    public String secretKey(){
-        return System.getenv("SECRET_KEY");
-    }
 }
