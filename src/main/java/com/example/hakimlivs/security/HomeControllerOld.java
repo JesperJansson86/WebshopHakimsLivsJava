@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Project: Java
  */
 @RestController
-public class HomeController {
+public class HomeControllerOld {
 
     @GetMapping("/home")
     public String home(){

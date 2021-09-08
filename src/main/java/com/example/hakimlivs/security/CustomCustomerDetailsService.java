@@ -2,6 +2,7 @@ package com.example.hakimlivs.security;
 
 import com.example.hakimlivs.models.Customer;
 import com.example.hakimlivs.repositories.CustomerRepository;
+import com.example.hakimlivs.security.CustomCustomerDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
