@@ -20,7 +20,7 @@ public class MailService {
 
         //temp json!!!! (twilio example json-body) currently replaces json input
         json = """
-                {"personalizations": [{"to": [{"email": "Hakimslives@gmail.com"}]}],"from": {"email": "Hakimslives@gmail.com"},"subject": "Sending with SendGrid is Fun","content": "hej" [{"type": "text/plain", "value": "and easy to do anywhere, even with cURL"}]}
+                {"personalizations": [{"to": [{"email": "Hakimslives@gmail.com"}]}],"from": {"email": "Hakimslives@gmail.com"},"subject": "Sending with SendGrid is Fun","content": [{"type": "text/plain", "value": "and easy to do anywhere, even with cURL"}]}
                 """;
 
         Headers headers = new Headers.Builder()
