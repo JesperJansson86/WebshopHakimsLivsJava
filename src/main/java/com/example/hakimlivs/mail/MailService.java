@@ -12,18 +12,19 @@ public class MailService {
 
     /**
      * Sends a mail using Twilio SendsGrid
-     * @param apiKey twilio ApiKey
      * @param json json body
      */
-    public void sendMail(String apiKey, String json){
+    public void sendMail(String json){
 
         String sendUrl = this.url + "mail/send";
 
         //temp json!!!! (twilio example json-body) currently replaces json input
-        json = "{\"personalizations\":[{\"to\":[{\"email\":\"Hakimslives@gmail.com\",\"name\":\"Hakim Test\"}],\"subject\":\"Mail Test!\"}],\"content\":\"Content Test\" [{\"type\": \"text/plain\", \"value\": \"Heya!\"}],\"from\":{\"email\":\"Hakimslives@gmail.com\",\"name\":\"HakimsLivs\"},\"reply_to\":{\"email\":\"Hakimslives@gmail.com\",\"name\":\"HakimsLivs\"}}";
+        json = """
+                {"personalizations": [{"to": [{"email": "Hakimslives@gmail.com"}]}],"from": {"email": "Hakimslives@gmail.com"},"subject": "Sending with SendGrid is Fun","content": "hej" [{"type": "text/plain", "value": "and easy to do anywhere, even with cURL"}]}
+                """;
 
         Headers headers = new Headers.Builder()
-                .add("Authorization", "Bearer "+ apiKey)
+                .add("Authorization", "Bearer "+ System.getenv("SECRET_MAIL_APIKEY"))
                 .add("Content-Type", "application/json")
                 .build();
 
