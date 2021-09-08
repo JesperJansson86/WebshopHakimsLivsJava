@@ -33,6 +33,8 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception{
+        System.out.println("In Authenticate:");
+
 
         try {
             authenticationManager.authenticate(
@@ -52,5 +54,10 @@ public class AuthenticationController {
                 jwtUtility.generateToken(userDetails);
 
         return  new JwtResponse(token);
+    }
+
+    @GetMapping("/secretkey")
+    public String secretKey(){
+        return System.getenv("SECRET_KEY");
     }
 }
