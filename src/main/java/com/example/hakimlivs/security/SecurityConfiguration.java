@@ -2,6 +2,7 @@ package com.example.hakimlivs.security;
 
 import com.example.hakimlivs.security.jwtToken.filter.JWTAuthorizationFilter;
 import com.example.hakimlivs.security.jwtToken.filter.JwtFilter;
+import com.example.hakimlivs.security.jwtToken.filter.SecretKeeper;
 import com.example.hakimlivs.security.jwtToken.utility.JWTUtility;
 import com.example.hakimlivs.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -42,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
         auth.userDetailsService(customCustomerDetailsService);
     }
 
@@ -52,16 +54,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         return super.authenticationManagerBean();
     }
 
-//    @Bean
-//    AuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        UserDetailsService userDetailsService;
-//        provider.setUserDetailsService(customCustomerDetailsService);
-//        //Tillfällig password encoder class för att kringgå kryptering
-//        provider.setPasswordEncoder(new PasswordEnconderTest());
-//        return provider;
-//    }
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new Pbkdf2PasswordEncoder(SecretKeeper.INSTANCE.getPbkSecret(), 1000, 256);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -80,6 +76,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilter(jwtAuthorizationFilter)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
     }
 }

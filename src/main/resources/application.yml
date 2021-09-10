@@ -1,2 +1,5 @@
 jwt:
   secret: secretkey123
+
+pbkdf2:
+  secret: 06db055cd117a57a24faffdc8f27c5e1

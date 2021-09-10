@@ -2,8 +2,11 @@ package com.example.hakimlivs;
 
 import com.example.hakimlivs.models.*;
 import com.example.hakimlivs.repositories.*;
+import com.example.hakimlivs.security.jwtToken.filter.SecretKeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLOutput;
@@ -44,6 +47,7 @@ public class AddTestData implements CommandLineRunner {
     StoreRepository storeRepo;
     @Autowired
     UnitRepository unitRepo;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -117,18 +121,19 @@ public class AddTestData implements CommandLineRunner {
     }
 
     private void addCustomers() {
+        PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder(SecretKeeper.INSTANCE.getPbkSecret(), 1000, 256);
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("Jane", "Andresson", addressRepo.findById(1L).get(),"070-1740605", "jabari45@example.org", "password", true, false));
-        customers.add(new Customer("Mark", "Browall", addressRepo.findById(2L).get(), "070-1740606","mallie.abbott@example.org", "password", true, false));
-        customers.add(new Customer("Ann", "Cavallin", addressRepo.findById(3L).get(),"070-1740607", "lpouros@example.com", "password", false, false));
-        customers.add(new Customer("Rid", "Deichmann", addressRepo.findById(4L).get(),"070-1740608", "rath.felicity@example.net", "password", true, false));
-        customers.add(new Customer("Berit", "Engquist", addressRepo.findById(5L).get(),"070-1740609", "sim.heaney@example.com", "password", true, false));
-        customers.add(new Customer("Per", "Fisk", addressRepo.findById(6L).get(),"070-1740610", "ziemann.lucinda@example.net", "password", false, false));
-        customers.add(new Customer("Nora", "Guldstrand", addressRepo.findById(7L).get(),"070-1740611", "eichmann.daisha@example.com", "password", false, false));
-        customers.add(new Customer("Matilda", "Hartelius", addressRepo.findById(8L).get(),"070-1740612", "ykoss@example.net", "password", true, false));
-        customers.add(new Customer("Monica", "Irmlev", addressRepo.findById(8L).get(),"070-1740613", "huel.felicity@example.org", "password", false, false));
-        customers.add(new Customer("Caroline", "Johansson", addressRepo.findById(1L).get(),"070-1740614", "marley.doyle@example.com", "password", false, false));
-        customers.add(new Customer("Hakim", "Knöppel", addressRepo.findById(9L).get(), "070-1740615", "greenfelder.brandy@example.com", "password", true, true));
+        customers.add(new Customer("Jane", "Andresson", addressRepo.findById(1L).get(),"070-1740605", "jabari45@example.org", passwordEncoder.encode("password"), true, false));
+        customers.add(new Customer("Mark", "Browall", addressRepo.findById(2L).get(), "070-1740606","mallie.abbott@example.org", passwordEncoder.encode("password"), true, false));
+        customers.add(new Customer("Ann", "Cavallin", addressRepo.findById(3L).get(),"070-1740607", "lpouros@example.com", passwordEncoder.encode("password"), false, false));
+        customers.add(new Customer("Rid", "Deichmann", addressRepo.findById(4L).get(),"070-1740608", "rath.felicity@example.net", passwordEncoder.encode("password"), true, false));
+        customers.add(new Customer("Berit", "Engquist", addressRepo.findById(5L).get(),"070-1740609", "sim.heaney@example.com", passwordEncoder.encode("password"), true, false));
+        customers.add(new Customer("Per", "Fisk", addressRepo.findById(6L).get(),"070-1740610", "ziemann.lucinda@example.net", passwordEncoder.encode("password"), false, false));
+        customers.add(new Customer("Nora", "Guldstrand", addressRepo.findById(7L).get(),"070-1740611", "eichmann.daisha@example.com", passwordEncoder.encode("password"), false, false));
+        customers.add(new Customer("Matilda", "Hartelius", addressRepo.findById(8L).get(),"070-1740612", "ykoss@example.net", passwordEncoder.encode("password"), true, false));
+        customers.add(new Customer("Monica", "Irmlev", addressRepo.findById(8L).get(),"070-1740613", "huel.felicity@example.org", passwordEncoder.encode("password"), false, false));
+        customers.add(new Customer("Caroline", "Johansson", addressRepo.findById(1L).get(),"070-1740614", "marley.doyle@example.com", passwordEncoder.encode("password"), false, false));
+        customers.add(new Customer("Hakim", "Knöppel", addressRepo.findById(9L).get(), "070-1740615", "greenfelder.brandy@example.com", passwordEncoder.encode("password"), true, true));
         for (int i = 0; i < customers.size(); i++) {
             Long id = i + 1L;
             customers.get(i).setId(id);

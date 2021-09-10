@@ -11,6 +11,9 @@ public class SecretKeeper {
     @Value("${jwt.secret}")
     private String secretKey;
 
+    @Value("${pbkdf2.secret}")
+    private String pbkSecret;
+
     @PostConstruct
     public void init(){
         INSTANCE = this;
@@ -18,5 +21,9 @@ public class SecretKeeper {
 
     public String getSecretKey(){
         return secretKey;
+    }
+
+    public String getPbkSecret(){
+        return pbkSecret;
     }
 }
