@@ -8,7 +8,10 @@ import com.example.hakimlivs.repositories.AddressRepository;
 import com.example.hakimlivs.repositories.AreaCodeRepository;
 import com.example.hakimlivs.repositories.CityRepository;
 import com.example.hakimlivs.repositories.CustomerRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
