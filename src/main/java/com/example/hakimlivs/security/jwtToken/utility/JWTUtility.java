@@ -8,10 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @Component
 public class JWTUtility implements Serializable {
@@ -56,6 +55,13 @@ public class JWTUtility implements Serializable {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        List array = userDetails.getAuthorities().stream().toList();
+        for (int i = 0; i < array.size(); i++) {
+            System.out.println(array.get(i));
+            claims.put("roles",array.get(i));
+        }
+
+
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

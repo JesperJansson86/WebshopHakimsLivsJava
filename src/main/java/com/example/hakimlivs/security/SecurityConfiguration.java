@@ -40,6 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/api/*").permitAll()
                 .antMatchers("/home").hasAuthority("CUSTOMER")
                 .antMatchers("/admin").hasAuthority("ADMIN")
                 .anyRequest()
