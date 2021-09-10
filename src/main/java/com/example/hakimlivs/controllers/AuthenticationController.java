@@ -8,7 +8,6 @@ import com.example.hakimlivs.security.CustomCustomerDetailsService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,8 +37,6 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception{
-        System.out.println("In Authenticate:");
-
 
         try {
             authenticationManager.authenticate(
@@ -87,11 +84,10 @@ public class AuthenticationController {
                 customer.getAddress().getAreaCode().getAreaCode(),
                 customer.getAddress().getAreaCode().getCity().getCity()
         );
-        CustomerInfoDTO customerInfoDTO = new CustomerInfoDTO(
+        return new CustomerInfoDTO(
                 customer.getFirstName(), customer.getLastName(),
                 customer.getEmail(), customer.getPhoneNumber(),
                 customerAddressDTO
         );
-        return customerInfoDTO;
     }
 }
