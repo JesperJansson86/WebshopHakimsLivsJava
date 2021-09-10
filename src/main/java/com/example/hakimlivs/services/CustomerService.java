@@ -75,4 +75,8 @@ public class CustomerService {
 
         return customer;
     }
+
+    public Customer findCustomerByEmail(String email){
+        return customerRepository.findCustomerByEmail(email);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.hakimlivs.security.jwtToken.utility;
 
+import com.example.hakimlivs.security.jwtToken.filter.SecretKeeper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,8 +20,6 @@ public class JWTUtility implements Serializable {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -41,7 +40,8 @@ public class JWTUtility implements Serializable {
 
     //for retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        token = token.replace("Bearer ", "");
+        return Jwts.parser().setSigningKey(SecretKeeper.INSTANCE.getSecretKey()).parseClaimsJws(token).getBody();
     }
 
 
@@ -72,7 +72,7 @@ public class JWTUtility implements Serializable {
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, secretKey).compact();
+                .signWith(SignatureAlgorithm.HS512, SecretKeeper.INSTANCE.getSecretKey()).compact();
     }
 
 
@@ -82,3 +82,4 @@ public class JWTUtility implements Serializable {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
+
