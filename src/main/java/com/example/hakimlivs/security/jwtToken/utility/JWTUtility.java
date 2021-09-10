@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 @Component
 public class JWTUtility implements Serializable {
@@ -60,7 +59,6 @@ public class JWTUtility implements Serializable {
             System.out.println(array.get(i));
             claims.put("roles",array.get(i));
         }
-
 
         return doGenerateToken(claims, userDetails.getUsername());
     }

@@ -1,7 +1,7 @@
 package com.example.hakimlivs.security;
 
 import com.example.hakimlivs.security.jwtToken.filter.JWTAuthorizationFilter;
-import com.example.hakimlivs.security.jwtToken.filter.JwtFilter;
+import com.example.hakimlivs.security.jwtToken.filter.JWTAuthenticationFilter;
 import com.example.hakimlivs.security.jwtToken.filter.SecretKeeper;
 import com.example.hakimlivs.security.jwtToken.utility.JWTUtility;
 import com.example.hakimlivs.services.CustomerService;
@@ -9,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -32,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     private CustomCustomerDetailsService customCustomerDetailsService;
 
     @Autowired
-    private JwtFilter jwtFilter;
+    private JWTAuthenticationFilter JWTAuthenticationFilter;
 
     @Autowired
     CustomerService customerService;
@@ -71,8 +68,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 //                .anyRequest()
 //                .authenticated()
                 .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilter(jwtAuthorizationFilter)
+                .addFilterBefore(JWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //Authentication Filter (inlogg)
+                .addFilter(jwtAuthorizationFilter)                                      //Authorizationg Filter (kontroll av roll)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }
