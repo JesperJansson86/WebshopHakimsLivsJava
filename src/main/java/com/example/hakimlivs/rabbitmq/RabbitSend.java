@@ -16,22 +16,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 public class RabbitSend {
-    @Autowired
+
     ConnectionFactory connectionFactory;
 
-void test() {
-    RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory );
+    public static void main(String[] args) {
+        RabbitSend send = new RabbitSend();
+        send.test();
+    }
+
+    void test() {
+
+
+    RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
     RabbitTemplate rabbitTemplate = new RabbitTemplate();
 
-    rabbitAdmin.declareExchange(new FanoutExchange("my-exchange-1"));
+
+    rabbitAdmin.declareExchange(new FanoutExchange("fanoutExchange"));
     // Skapa en queue
-    rabbitAdmin.declareQueue(new Queue("for-test-only-1"));
+    rabbitAdmin.declareQueue(new Queue("mail"));
     // Skapa en binding
-    rabbitAdmin.declareBinding(new Binding("for-test-only-1", Binding.DestinationType.QUEUE, "my-exchange-1", "routing-key-is-not-used-for-fanout-but-required", Map.of()));
+    rabbitAdmin.declareBinding(new Binding("mail", Binding.DestinationType.QUEUE, "fanoutExchange", "", Map.of()));
     // Produce message på exchange
-    rabbitTemplate.convertAndSend("my-exchange-1", "", "Hej Hej");
+    rabbitTemplate.convertAndSend("fanoutExchange", "", "Hej Hej");
     // Consume message på queue
-    Message message = rabbitTemplate.receive("for-test-only-1", 4000);
+    Message message = rabbitTemplate.receive("mail", 4000);
 
 }
 }
