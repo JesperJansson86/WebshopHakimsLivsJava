@@ -1,5 +1,6 @@
 package com.example.hakimlivs.rabbitmq;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -11,35 +12,23 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-
+@RestController
+@RequestMapping(path = ("/api/rabbit"))
 public class RabbitSend {
-
-    ConnectionFactory connectionFactory;
-
-    public static void main(String[] args) {
-        RabbitSend send = new RabbitSend();
-        send.test();
+    RabbitTemplate rabbitTemplate;
+    public RabbitSend(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    void test() {
-
-
-    RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
-    RabbitTemplate rabbitTemplate = new RabbitTemplate();
-
-
-    rabbitAdmin.declareExchange(new FanoutExchange("fanoutExchange"));
-    // Skapa en queue
-    rabbitAdmin.declareQueue(new Queue("mail"));
-    // Skapa en binding
-    rabbitAdmin.declareBinding(new Binding("mail", Binding.DestinationType.QUEUE, "fanoutExchange", "", Map.of()));
-    // Produce message på exchange
-    rabbitTemplate.convertAndSend("fanoutExchange", "", "Hej Hej");
-    // Consume message på queue
-    Message message = rabbitTemplate.receive("mail", 4000);
-
-}
+    @GetMapping("/send")
+    public void send() {
+    String message = "yay" + RabbitConsume.counter;
+    RabbitConsume.counter++;
+        rabbitTemplate.convertAndSend("fanoutExchange", "",message );
+    }
 }

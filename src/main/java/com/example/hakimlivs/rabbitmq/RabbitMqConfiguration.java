@@ -2,37 +2,31 @@ package com.example.hakimlivs.rabbitmq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-//import com.rabbitmq.client.ConnectionFactory;
-
-
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.amqp.core.*;
-//import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import com.rabbitmq.client.Channel;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
-
-@org.springframework.context.annotation.Configuration
+@Configuration
 @EnableScheduling
 public class RabbitMqConfiguration {
-RabbitAdmin rabbitAdmin;
+
+//    @Bean
+//    public RabbitSend rabbitSend(RabbitTemplate template) {
+//        return new RabbitSend(template);}
+//    @Bean
+//    public RabbitConsume rabbitConsume(RabbitTemplate template){
+//        return new RabbitConsume(template);
+//    }
+
 
     @Bean
     FanoutExchange exchange() {
@@ -45,25 +39,12 @@ RabbitAdmin rabbitAdmin;
 
     @Bean
     public Binding declareBindingGeneric() {
-        return new Binding("mail",Binding.DestinationType.QUEUE,"fanoutExchange","", Map.of());
-    }
-
-
-    @Bean
-    ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setUsername("yhldjghk");
-        connectionFactory.setPassword("dhFwExSP5Y3tObe-B_hUZNwldxNmoWEc");
-        connectionFactory.setVirtualHost("/");
-        connectionFactory.setHost("crow-01.rmq.cloudamqp.com");
-        connectionFactory.setPort(1883);
-        return connectionFactory;
+        return new Binding("mail",Binding.DestinationType.QUEUE,"fanoutExchange","2143124", Map.of());
     }
 
     @Bean
-    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, Jackson2JsonMessageConverter converter) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate();
-        rabbitTemplate.setConnectionFactory(connectionFactory);
+    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory, final Jackson2JsonMessageConverter converter) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(converter);
         return rabbitTemplate;
     }
@@ -73,5 +54,7 @@ RabbitAdmin rabbitAdmin;
         objectMapper.registerModule(new JavaTimeModule());
         return new Jackson2JsonMessageConverter(objectMapper);
     }
+
+
 
 }
