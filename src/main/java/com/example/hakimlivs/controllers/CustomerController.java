@@ -84,7 +84,7 @@ public class CustomerController {
 //        return String.format("Kunden %s %s has been added", firstname, lastname);
 //    }
 
-    @PostMapping("api/customer/add")
+    @PostMapping("/add")
     public String addCustomerPost(@RequestBody CustomerDTO customerDTO) {
         Customer customer = customerService.addCustomer(customerDTO);
 
