@@ -22,7 +22,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_HOST: 127.0.0.1
+          MYSQL_HOST: 172.18.0.1
           MYSQL_USERNAME: hibernate
           MYSQL_PASSWORD: admin
           MYSQL_ROOT_PASSWORD: password
@@ -67,6 +67,6 @@ jobs:
       - name: Build Jar and Run Tests
         run: mvn test
         env:
-          MYSQL_HOST: localhost
+          MYSQL_HOST: 172.18.0.1
           MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
    
