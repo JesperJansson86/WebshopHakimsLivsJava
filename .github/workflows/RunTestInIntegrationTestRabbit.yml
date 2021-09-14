@@ -25,7 +25,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: db_hibernate
           MYSQL_USERNAME: hibernate
-          MYSQL_PASSWORD: admin
+         # MYSQL_PASSWORD: admin
           MYSQL_ROOT_PASSWORD: admin
         ports:
           - 3306:3306
