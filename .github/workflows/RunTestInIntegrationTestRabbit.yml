@@ -38,7 +38,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
     services:
         mysql:
-            image: mysql:8.0
+            image: mysql:5.7
             env:
                 MYSQL_ALLOW_EMPTY_PASSWORD: yes
                 MYSQL_DATABASE: db_hibernate   
