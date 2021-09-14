@@ -22,10 +22,15 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run maven test
-        run: |
-          mvn test
-          echo Kör tester.
+      - name: Get Java JDK 16
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '16'
+      - name: Java Version
+        run: java -version
+      - name: Build Jar and Run Tests
+        run: mvn test
