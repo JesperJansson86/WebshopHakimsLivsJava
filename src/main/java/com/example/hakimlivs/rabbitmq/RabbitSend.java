@@ -1,5 +1,7 @@
 package com.example.hakimlivs.rabbitmq;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.minidev.json.JSONObject;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Message;
@@ -30,5 +32,11 @@ public class RabbitSend {
     String message = "yay" + RabbitConsume.counter;
     RabbitConsume.counter++;
         rabbitTemplate.convertAndSend("fanoutExchange", "",message );
+    }
+
+    @GetMapping("/sendMail")
+    public void sendmail() {
+        MailDTO mailDTO = new MailDTO("jesperjansson86mail.com","order");
+        rabbitTemplate.convertAndSend("fanoutExchange", "",mailDTO );
     }
 }
