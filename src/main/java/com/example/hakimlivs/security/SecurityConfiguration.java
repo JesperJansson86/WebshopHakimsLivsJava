@@ -64,6 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .antMatchers("/api/*").permitAll()
                 .antMatchers("/home").hasAuthority("CUSTOMER")
                 .antMatchers("/admin").hasAuthority("ADMIN")
+                .antMatchers("/api/rabbit/*").hasAuthority("ADMIN")
                 .antMatchers("/customerinfo").hasAnyAuthority("CUSTOMER", "ADMIN")
 //                .anyRequest()
 //                .authenticated()
