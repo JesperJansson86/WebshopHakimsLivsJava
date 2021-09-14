@@ -24,21 +24,22 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
-          - 3306:3306
+          - 8888:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-   # env:
-    #  DB_DATABASE: db_hibernate
-     # DB_USER: hibernate@127.0.0.1
-      #DB_PASSWORD: admin  
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  #  env:
+   #   DB_DATABASE: db_hibernate
+    #  DB_USER: hibernate@127.0.0.1
+     # DB_PASSWORD: admin  
+   #  Steps represent a sequence of tasks that will be executed as part of the job
     
     steps:
-      
-    #  - name: Set up MySQL
-    #    run: |
-     #     sudo /etc/init.d/mysql start
-      #    mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v1
+      - run: mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS test;
+      #- name: Set up MySQL
+       # run: |
+        #  sudo /etc/init.d/mysql start
+         # mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+    #   Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Code
         uses: actions/checkout@v2
         
