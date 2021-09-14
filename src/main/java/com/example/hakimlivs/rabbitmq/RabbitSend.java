@@ -1,7 +1,6 @@
 package com.example.hakimlivs.rabbitmq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.minidev.json.JSONObject;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Message;
