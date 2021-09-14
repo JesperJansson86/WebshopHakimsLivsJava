@@ -11,7 +11,7 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+          
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -34,3 +34,14 @@ jobs:
         run: java -version
       - name: Build Jar and Run Tests
         run: mvn test
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+    services:
+        mysql:
+            image: mysql:5.7
+            env:
+                MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                MYSQL_DATABASE: laravel_tags
+            ports:
+                - 3306
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
