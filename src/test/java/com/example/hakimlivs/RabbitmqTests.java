@@ -46,11 +46,6 @@ class RabbitmqTests {
     @Autowired
     RabbitSend rabbitSend;
 
-
-    @Test
-    void contextLoads() {
-    }
-
     @Autowired
     ConnectionFactory connectionFactory;
 
@@ -60,21 +55,27 @@ class RabbitmqTests {
     void setUp() {
         rabbitAdmin = new RabbitAdmin(connectionFactory);
         rabbitAdmin.declareQueue(new Queue("testMail"));
-        rabbitAdmin.declareBinding(new Binding("testMail",Binding.DestinationType.QUEUE,"fanoutExchange","123",null));
+        rabbitAdmin.declareBinding(new Binding("testMail", Binding.DestinationType.QUEUE, "fanoutExchange", "123", null));
 
     }
 
     @Test
     void shouldSendToRabbitAndReceiveMessageBack() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/rabbit/send")).andExpect(status().is2xxSuccessful());
-        Message message1 = rabbitTemplate.receive("testMail",4000);
+        Message message1 = rabbitTemplate.receive("testMail", 4000);
         assertNotNull(message1);
-        assertEquals("\"yay1\"",new String (message1.getBody()));
+        assertEquals("\"yay1\"", new String(message1.getBody()));
         assertTrue(message1.toString().contains("yay"));
     }
+
     @Test
-    void shouldSendMailDtoAndReceiveBodyBack(){
-        rabbitSend.sendmail("");
+    void shouldSendMailDtoAndReceiveBodyBack() {
+        String expected = """
+                {"mailTo":"test@test.com","type":"order"}""";
+        rabbitSend.sendmail("test@test.com", "order");
+        Message message1 = rabbitTemplate.receive("testMail", 4000);
+        assertEquals("{\"mailTo\":\"test@test.com\",\"type\":\"order\"}", new String(message1.getBody()));
+        assertEquals(expected, new String(message1.getBody()));
 
     }
 
