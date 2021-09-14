@@ -1,6 +1,7 @@
 package com.example.hakimlivs.controllers;
 
 import com.example.hakimlivs.models.Customer;
+import com.example.hakimlivs.security.CustomCustomerDetails;
 import com.example.hakimlivs.security.jwtToken.model.JwtRequest;
 import com.example.hakimlivs.security.jwtToken.model.JwtResponse;
 import com.example.hakimlivs.security.jwtToken.utility.JWTUtility;
@@ -49,11 +50,11 @@ public class AuthenticationController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
 
-        final UserDetails userDetails
-                = customCustomerDetailsService.loadUserByUsername(jwtRequest.getUsername());
+        final CustomCustomerDetails customCustomerDetails
+                = (CustomCustomerDetails) customCustomerDetailsService.loadUserByUsername(jwtRequest.getUsername());
 
         final String token =
-                jwtUtility.generateToken(userDetails);
+                jwtUtility.generateToken(customCustomerDetails);
 
         return  new JwtResponse(token);
     }

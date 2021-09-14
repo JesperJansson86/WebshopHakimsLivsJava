@@ -1,5 +1,6 @@
 package com.example.hakimlivs.security.jwtToken.utility;
 
+import com.example.hakimlivs.security.CustomCustomerDetails;
 import com.example.hakimlivs.security.jwtToken.filter.SecretKeeper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -52,15 +53,16 @@ public class JWTUtility implements Serializable {
 
 
     //generate token for user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomCustomerDetails customCustomerDetails) {
         Map<String, Object> claims = new HashMap<>();
-        List array = userDetails.getAuthorities().stream().toList();
+        List array = customCustomerDetails.getAuthorities().stream().toList();
         for (int i = 0; i < array.size(); i++) {
             System.out.println(array.get(i));
             claims.put("roles",array.get(i));
         }
+        claims.put("firstname", customCustomerDetails.getFirstname());
 
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, customCustomerDetails.getUsername());
     }
 
 
