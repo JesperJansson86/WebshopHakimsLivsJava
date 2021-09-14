@@ -4,6 +4,7 @@ import com.example.hakimlivs.models.*;
 import com.example.hakimlivs.models.DTO.CustomerDTO;
 import com.example.hakimlivs.models.DTO.OrderProductResponseDTO;
 import com.example.hakimlivs.models.DTO.OrderResponseDTO;
+import com.example.hakimlivs.rabbitmq.RabbitSend;
 import com.example.hakimlivs.repositories.*;
 import com.example.hakimlivs.security.SecurityConfiguration;
 import com.example.hakimlivs.services.CustomerService;
@@ -38,6 +39,8 @@ public class OrdersController {
     Order_ContainsRepository order_containsRepository;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    RabbitSend rabbitSend;
 
 
     //    public Message addOrdersByPost(@AuthenticationPrincipal Customer RequestingCustomer, @RequestBody OrderResponseDTO newOrder) {
@@ -107,6 +110,7 @@ public class OrdersController {
             Customer customer = customerRepository.findCustomerByEmail(newOrder.getEmail());
             orders.setCustomer(customer);
             ordersRepository.save(orders);
+            rabbitSend.sendmail(customer.getEmail(),"order");
         } else {
 //            return new Message(false, "Kund fanns ej");
             customerService.addCustomer(new CustomerDTO(
@@ -121,6 +125,7 @@ public class OrdersController {
             Customer customer = customerRepository.findCustomerByEmail(newOrder.getEmail());
             orders.setCustomer(customer);
             ordersRepository.save(orders);
+            rabbitSend.sendmail(customer.getEmail(),"order");
         }
 
         newOrder.getProducts().forEach(orderedProduct -> {

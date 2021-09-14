@@ -33,9 +33,8 @@ public class RabbitSend {
         rabbitTemplate.convertAndSend("fanoutExchange", "",message );
     }
 
-    @GetMapping("/sendMail")
-    public void sendmail() {
-        MailDTO mailDTO = new MailDTO("jesperjansson86@gmail.com","order");
+    public void sendmail(String mailTo, String type) {
+        MailDTO mailDTO = new MailDTO(mailTo,type);
         rabbitTemplate.convertAndSend("fanoutExchange", "",mailDTO );
     }
 }
