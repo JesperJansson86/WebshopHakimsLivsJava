@@ -22,11 +22,13 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
+          MYSQL_USERNAME: hibernate
+          MYSQL_PASSWORD: admin
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: db_hibernate
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
-          - 8888:3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
   #  env:
    #   DB_DATABASE: db_hibernate
@@ -36,7 +38,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v1
-      - run: mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS db_hibernate;'
+      - run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS db_hibernate;'
       #- name: Set up MySQL
        # run: |
         #  sudo /etc/init.d/mysql start
