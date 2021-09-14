@@ -37,6 +37,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     
     steps:
+      - name: Shutdown Ubuntu MySQL (SUDO)
+        run: 
+          sudo service mysql stop 
     #  - name: Set up MySQL
     #    run: |
      #     sudo /etc/init.d/mysql start
