@@ -4,14 +4,14 @@ import com.example.hakimlivs.models.Address;
 import com.example.hakimlivs.models.AreaCode;
 import com.example.hakimlivs.models.City;
 import com.example.hakimlivs.models.Customer;
+import com.example.hakimlivs.models.DTO.CustomerDTO;
 import com.example.hakimlivs.repositories.AddressRepository;
 import com.example.hakimlivs.repositories.AreaCodeRepository;
 import com.example.hakimlivs.repositories.CityRepository;
 import com.example.hakimlivs.repositories.CustomerRepository;
+import com.example.hakimlivs.security.SecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Locale;
 
 @Service
 public class CustomerService {
@@ -24,47 +24,50 @@ public class CustomerService {
     @Autowired
     CityRepository cityRepository;
 
-    public Customer addCustomer(
-            String firstname,
-            String lastname,
-            String email,
-            String password,
-            boolean loyalCustomer,
-            boolean adminStatus,
-            String address,
-            String areaCode,
-            String city
-    ) {
+    public Customer addCustomer(CustomerDTO customerDTO) {
+        //MAPPING
         Customer customer = new Customer();
-        customer.setFirstName(firstname);
-        customer.setLastName(lastname);
-        customer.setEmail(email);
-        customer.setPassword(password);
-        customer.setLoyalCustomer(loyalCustomer);
-        customer.setAdminStatus(adminStatus);
+        customer.setFirstName(customerDTO.getFirstname());
+        customer.setLastName(customerDTO.getLastname());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setPhoneNumber(customerDTO.getPhone());
+        customer.setPassword(SecurityConfiguration.passwordEncoder().encode(customerDTO.getPassword()));
+        customer.setLoyalCustomer(false);
+        customer.setAdminStatus(false);
+
+        //Skapar tempvariabler
         Address tempAddress = new Address();
         AreaCode tempAreaCode = new AreaCode();
         City tempCity = new City();
-        if (cityRepository.findCityBycity(city) == null) {
-            tempCity.setCity(city);
+
+        //Kontrollera om stad finns, annars skapa ny
+        if (cityRepository.findCityBycity(customerDTO.getCity()) == null) {
+            tempCity.setCity(customerDTO.getCity());
             cityRepository.save(tempCity);
         }
 
-        areaCode = areaCode.replace(" ","");
-        areaCode = areaCode.trim();
+        //Ta bort tomma tecken i AreaCode
+        customerDTO.setAreaCode(customerDTO.getAreaCode().replace(" ",""));
+        customerDTO.setAreaCode(customerDTO.getAreaCode().trim());
 
-        if (areaCodeRepository.findAreaCodeByareaCode(areaCode) == null) {
-            tempAreaCode.setAreaCode(areaCode);
+
+        //Kontrollera om area code finns, annars skapa ny.
+        if (areaCodeRepository.findAreaCodeByareaCode(customerDTO.getAreaCode()) == null) {
+            tempAreaCode.setAreaCode(customerDTO.getAreaCode());
             areaCodeRepository.save(tempAreaCode);
         }
-        if (addressRepository.findAddressByAddress(address) == null) {
-            tempAddress.setAddress(address);
+
+        //Kontrollera om adress finns, annars spara ny.
+        if (addressRepository.findAddressByAddress(customerDTO.getAddress()) == null) {
+            tempAddress.setAddress(customerDTO.getAddress());
             addressRepository.save(tempAddress);
         }
-        customer.setAddress(addressRepository.findAddressByAddress(address));
-        tempCity = cityRepository.findCityBycity(city);
-        tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(areaCode);
-        tempAddress = addressRepository.findAddressByAddress(address);
+
+        customer.setAddress(addressRepository.findAddressByAddress(customerDTO.getAddress()));
+
+        tempCity = cityRepository.findCityBycity(customerDTO.getCity());
+        tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(customerDTO.getAreaCode());
+        tempAddress = addressRepository.findAddressByAddress(customerDTO.getAddress());
         tempAreaCode.setCity(tempCity);
         tempAddress.setAreaCode(tempAreaCode);
         customer.setAddress(tempAddress);

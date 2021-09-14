@@ -2,6 +2,7 @@ package com.example.hakimlivs;
 
 import com.example.hakimlivs.models.*;
 import com.example.hakimlivs.repositories.*;
+import com.example.hakimlivs.security.SecurityConfiguration;
 import com.example.hakimlivs.security.jwtToken.filter.SecretKeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -121,7 +122,7 @@ public class AddTestData implements CommandLineRunner {
     }
 
     private void addCustomers() {
-        PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder(SecretKeeper.INSTANCE.getPbkSecret(), 1000, 256);
+        PasswordEncoder passwordEncoder = SecurityConfiguration.passwordEncoder();
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer("Jane", "Andresson", addressRepo.findById(1L).get(),"070-1740605", "jabari45@example.org", passwordEncoder.encode("password"), true, false));
         customers.add(new Customer("Mark", "Browall", addressRepo.findById(2L).get(), "070-1740606","mallie.abbott@example.org", passwordEncoder.encode("password"), true, false));

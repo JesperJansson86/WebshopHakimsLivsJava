@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new Pbkdf2PasswordEncoder(SecretKeeper.INSTANCE.getPbkSecret(), 1000, 256);
     }
 

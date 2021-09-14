@@ -1,17 +1,18 @@
 package com.example.hakimlivs.controllers;
 
 import com.example.hakimlivs.models.*;
+import com.example.hakimlivs.models.DTO.CustomerDTO;
+import com.example.hakimlivs.models.DTO.OrderProductResponseDTO;
+import com.example.hakimlivs.models.DTO.OrderResponseDTO;
 import com.example.hakimlivs.repositories.*;
+import com.example.hakimlivs.security.SecurityConfiguration;
 import com.example.hakimlivs.services.CustomerService;
 import javassist.NotFoundException;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = ("/api/orders"))
@@ -38,34 +39,13 @@ public class OrdersController {
     @Autowired
     CustomerService customerService;
 
-    //Inner class
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    private static class ProductResponse {
-        Long product_id;
-        int amount;
-    }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    private static class OrderResponse {
-        String firstName;
-        String lastName;
-        String address;
-        String areaCode;
-        String city;
-        String email;
-        String phoneNumber;
-        Long delivery_option_id;
-        List<ProductResponse> products;
-    }
+    //    public Message addOrdersByPost(@AuthenticationPrincipal Customer RequestingCustomer, @RequestBody OrderResponseDTO newOrder) {
 
     @PostMapping(path = "/add")
-    public Message addOrdersByPost(@RequestBody OrderResponse newOrder) {
+    public Message addOrdersByPost(@RequestBody OrderResponseDTO newOrder) {
         //Här kontrollerar vi för varje produkt i beställningen ifall det finns nog i lager.
-        for (var v : newOrder.products
+        for (var v : newOrder.getProducts()
         ) {
             Product product = productRepository.findById(v.getProduct_id()).get();
             int inventory = product.getInventory();
@@ -86,29 +66,29 @@ public class OrdersController {
             orders.setDeliveryOption(deliveryOptionRepository.findById(1L).get());
             orders.setDeliveryAddress(null);
         } else if (newOrder.getDelivery_option_id() == 2 || newOrder.getDelivery_option_id() == 3) { // 2=Hemleverans 2, 3 = Fri frakt
-            orders.setDeliveryOption(deliveryOptionRepository.findById(newOrder.delivery_option_id).get());
+            orders.setDeliveryOption(deliveryOptionRepository.findById(newOrder.getDelivery_option_id()).get());
             Address tempAddress = new Address();
             AreaCode tempAreaCode = new AreaCode();
             City tempCity = new City();
 
 
-            if (!cityRepository.existsByCity(newOrder.city)) {
-                tempCity.setCity(newOrder.city);
+            if (!cityRepository.existsByCity(newOrder.getCity())) {
+                tempCity.setCity(newOrder.getCity());
                 cityRepository.save(tempCity);
             }
-            if (!areaCodeRepository.existsByAreaCode(String.valueOf(newOrder.areaCode))) {
-                tempAreaCode.setAreaCode(String.valueOf(newOrder.areaCode));
+            if (!areaCodeRepository.existsByAreaCode(String.valueOf(newOrder.getAreaCode()))) {
+                tempAreaCode.setAreaCode(String.valueOf(newOrder.getAreaCode()));
                 areaCodeRepository.save(tempAreaCode);
             }
-            if (!addressRepository.existsByAddress(newOrder.address)) {
-                tempAddress.setAddress(newOrder.address);
+            if (!addressRepository.existsByAddress(newOrder.getAddress())) {
+                tempAddress.setAddress(newOrder.getAddress());
                 addressRepository.save(tempAddress);
             }
 
-            orders.setDeliveryAddress(addressRepository.findAddressByAddress(newOrder.address));
-            tempCity = cityRepository.findCityBycity(newOrder.city);
-            tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(String.valueOf(newOrder.areaCode));
-            tempAddress = addressRepository.findAddressByAddress(newOrder.address);
+            orders.setDeliveryAddress(addressRepository.findAddressByAddress(newOrder.getAddress()));
+            tempCity = cityRepository.findCityBycity(newOrder.getCity());
+            tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(String.valueOf(newOrder.getAreaCode()));
+            tempAddress = addressRepository.findAddressByAddress(newOrder.getAddress());
             tempAreaCode.setCity(tempCity);
             tempAddress.setAreaCode(tempAreaCode);
 //            customer.setAddress(tempAddress);
@@ -121,26 +101,29 @@ public class OrdersController {
             return new Message(false, "Delivery Option not found");
         }
 
-        if (customerRepository.existsByEmail(newOrder.email)) {
-            Customer customer = customerRepository.findCustomerByEmail(newOrder.email);
+        //Kontrollera om kund finns, annars skapa ny
+        //TODO: Kund ska inte skapas, kund ska vara inloggad.
+        if (customerRepository.existsByEmail(newOrder.getEmail())) {
+            Customer customer = customerRepository.findCustomerByEmail(newOrder.getEmail());
             orders.setCustomer(customer);
             ordersRepository.save(orders);
         } else {
-            customerService.addCustomer(newOrder.firstName,
-                    newOrder.lastName,
-                    newOrder.email,
+//            return new Message(false, "Kund fanns ej");
+            customerService.addCustomer(new CustomerDTO(
+                    newOrder.getFirstName(),
+                    newOrder.getLastName(),
+                    newOrder.getEmail(),
                     "password",
-                    false,
-                    false,
-                    newOrder.address,
-                    String.valueOf(newOrder.areaCode),
-                    newOrder.city);
-            Customer customer = customerRepository.findCustomerByEmail(newOrder.email);
+                    newOrder.getPhoneNumber(),
+                    newOrder.getAddress(),
+                    newOrder.getAreaCode(),
+                    newOrder.getCity()));
+            Customer customer = customerRepository.findCustomerByEmail(newOrder.getEmail());
             orders.setCustomer(customer);
             ordersRepository.save(orders);
         }
 
-        newOrder.products.forEach(orderedProduct -> {
+        newOrder.getProducts().forEach(orderedProduct -> {
             Order_Contains oc = new Order_Contains();
             oc.setOrder(orders);
             Product databaseProduct = productRepository.findById(orderedProduct.getProduct_id()).get();
@@ -166,30 +149,30 @@ public class OrdersController {
     @GetMapping(path = "post-info")
     public String getPostInfo() {
         return """
-                  {
-                        "products" : [
-                            {
-                                "product_id" : 1,
-                                "amount": 2
-                            },
-                            {
-                                "product_id" : 2,
-                                "amount": 5
-                            }
-                        ],
-                        "delivery_option_id" : 1,
-                        "firstName": "Jane",
-                        "lastName": "Andresson",
-                        "address": "Stadsgårdshamnen 22",
-                        "areaCode" : 11645,
-                        "city": "Stockholm",
-                        "email": "jabari45@example.org",
-                        "phoneNumber": "070-1740605"
-                    }
+                {
+                      "products" : [
+                          {
+                              "product_id" : 1,
+                              "amount": 2
+                          },
+                          {
+                              "product_id" : 2,
+                              "amount": 5
+                          }
+                      ],
+                      "delivery_option_id" : 1,
+                      "firstName": "Jane",
+                      "lastName": "Andresson",
+                      "address": "Stadsgårdshamnen 22",
+                      "areaCode" : 11645,
+                      "city": "Stockholm",
+                      "email": "jabari45@example.org",
+                      "phoneNumber": "070-1740605"
+                  }
                 """;
     }
 
-    @GetMapping(path = "/deleteById")
+    @DeleteMapping(path = "/deleteById")
     public String deleteOrdersById(@RequestParam long id) {
         if (ordersRepository.findById(id).isPresent()) {
             ordersRepository.deleteById(id);
