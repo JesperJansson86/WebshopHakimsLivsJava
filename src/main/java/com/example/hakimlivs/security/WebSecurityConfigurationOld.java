@@ -2,7 +2,7 @@
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.RabbitMqConfiguration;
 //import org.springframework.security.authentication.AuthenticationProvider;
 //import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +17,7 @@
 // * Time: 10:49
 // * Project: Java
 // */
-//@Configuration
+//@RabbitMqConfiguration
 //public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //
 //    @Autowired
