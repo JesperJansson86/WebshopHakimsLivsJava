@@ -51,6 +51,9 @@ class RabbitmqTests {
 
     RabbitAdmin rabbitAdmin;
 
+    @Test
+    void contextLoads() {
+    }
     @BeforeEach
     void setUp() {
         rabbitAdmin = new RabbitAdmin(connectionFactory);
