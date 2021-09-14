@@ -22,6 +22,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: db_hibernate
           MYSQL_USERNAME: hibernate
           MYSQL_PASSWORD: admin
@@ -30,9 +31,9 @@ jobs:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
-      DB_DATABASE:  db_hibernate
-      DB_USER:  hibernate
-      DB_PASSWORD:  admin  
+      DB_DATABASE: db_hibernate
+      DB_USER: hibernate
+      DB_PASSWORD: admin  
     # Steps represent a sequence of tasks that will be executed as part of the job
     
     steps:
