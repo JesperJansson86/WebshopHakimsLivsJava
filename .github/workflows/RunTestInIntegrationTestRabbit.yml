@@ -39,7 +39,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v1
-      - run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'create database db_hibernate; create user 'hibernate'@'localhost' IDENTIFIED BY 'admin'; GRANT ALL PRIVILEGES ON * . * TO 'hibernate'@'localhost';'
+      - run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'create database if not exists db_hibernate; create user 'hibernate'@'localhost' IDENTIFIED BY 'admin'; GRANT ALL PRIVILEGES ON * . * TO 'hibernate'@'localhost';'
       #- name: Set up MySQL
        # run: |
         #  sudo /etc/init.d/mysql start
