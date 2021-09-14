@@ -38,6 +38,8 @@ public class CustomCustomerDetails implements UserDetails{
         return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
+    public String getFirstname(){return customer.getFirstName();}
+
     @Override
     public String getPassword() {
         return customer.getPassword();
