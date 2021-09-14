@@ -26,10 +26,10 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    env:
-      DB_DATABASE: db_hibernate
-      DB_USER: hibernate@127.0.0.1
-      DB_PASSWORD: admin  
+   # env:
+    #  DB_DATABASE: db_hibernate
+     # DB_USER: hibernate@127.0.0.1
+      #DB_PASSWORD: admin  
     # Steps represent a sequence of tasks that will be executed as part of the job
     
     steps:
@@ -53,5 +53,6 @@ jobs:
       - name: Build Jar and Run Tests
         run: mvn test
         env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          MYSQL_HOST: localhost
+          MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
    
