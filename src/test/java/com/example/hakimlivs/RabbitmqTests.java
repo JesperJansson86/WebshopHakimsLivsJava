@@ -67,7 +67,7 @@ class RabbitmqTests {
         assertEquals("\"yay1\"", new String(message1.getBody()));
         assertTrue(message1.toString().contains("yay"));
     }
-//
+
     @Test
     void shouldSendMailDtoAndReceiveBodyBack() {
         String expected = """
