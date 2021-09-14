@@ -42,16 +42,16 @@ jobs:
       
       
       
-      - uses: actions/checkout@v1
-      - run: mysql -h 172.18.0.1 --port 3306 -u root -ppassword -e 'GRANT ALL PRIVILEGES ON db_hibermate.* TO 'root'@'%';'
+    #  - uses: actions/checkout@v1
+    #  - run: mysql -h 172.18.0.1 --port 3306 -u root -ppassword -e 'GRANT ALL PRIVILEGES ON db_hibermate.* TO 'root'@'%';'
      
      
      
      
-     #- name: Set up MySQL
-       # run: |
-        #  sudo /etc/init.d/mysql start
-         # mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE db_hibernate;' -uhibernate -padmin
     #   Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Code
         uses: actions/checkout@v2
