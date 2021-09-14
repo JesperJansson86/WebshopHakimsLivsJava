@@ -42,8 +42,8 @@ jobs:
       
       
       
-      #- uses: actions/checkout@v1
-      #- run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'GRANT ALL PRIVILEGES ON * . * TO 'root'@'localhost';'
+      - uses: actions/checkout@v1
+      - run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'GRANT ALL PRIVILEGES ON * . * TO 'root'@'localhost';'
      
      
      
