@@ -22,6 +22,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
+          MYSQL_HOST: 127.0.0.1
           MYSQL_USERNAME: hibernate
           MYSQL_PASSWORD: admin
           MYSQL_ROOT_PASSWORD: password
