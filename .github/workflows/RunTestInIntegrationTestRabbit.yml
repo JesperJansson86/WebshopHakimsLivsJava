@@ -38,9 +38,17 @@ jobs:
    #  Steps represent a sequence of tasks that will be executed as part of the job
     
     steps:
-      - uses: actions/checkout@v1
-      - run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'create database if not exists db_hibernate; create user hibernate@localhost IDENTIFIED BY admin; GRANT ALL PRIVILEGES ON * . * TO hibernate@localhost;'
-      #- name: Set up MySQL
+      
+      
+      
+      
+      #- uses: actions/checkout@v1
+      #- run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'create database if not exists db_hibernate; create user hibernate@localhost IDENTIFIED BY admin; GRANT ALL PRIVILEGES ON * . * TO hibernate@localhost;'
+     
+     
+     
+     
+     #- name: Set up MySQL
        # run: |
         #  sudo /etc/init.d/mysql start
          # mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
