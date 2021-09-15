@@ -16,32 +16,27 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class DatabaseIntegrationTests {
 
 
+    @Mock
+    BrandRepository mockRepository;
 
+    @BeforeEach
+    public void init() {
+        Brand kellogs = new Brand("Kellogs");
+    }
 
+    @Test
+    void getBrand() {
+        Brand mockBrand = new Brand("Kellogs");
+        when(mockRepository.findByBrand("Kellogs")).thenReturn(Optional.of(mockBrand));
+        Brand response = (Brand) mockRepository.findByBrand("Kellogs").get();
+        assertEquals(response.getBrand(), "Kellogs");
 
-        @Mock
-        BrandRepository mockRepository;
-
-        @BeforeEach
-        public void init() {
-            Brand kellogs = new Brand("Kellogs");
-        }
-        @Test
-        void getBrand() {
-            Brand mockBrand = new Brand("Kellogs");
-            when(mockRepository.findByBrand("Kellogs")).thenReturn(Optional.of(mockBrand));
-           Optional response = mockRepository.findByBrand("Kellogs");
-           Brand hej = (Brand) response.get();
-
-
-
-
-           assertEquals(hej.getBrand(),"Kellogs");
-            }
+    }
 
 
 }
