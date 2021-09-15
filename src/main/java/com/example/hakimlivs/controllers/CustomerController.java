@@ -13,7 +13,12 @@ import com.example.hakimlivs.security.SecurityConfiguration;
 import com.example.hakimlivs.services.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.java.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = ("/api/customer"))
 public class CustomerController {
+    public static final Logger LOG = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     CustomerService customerService;
@@ -34,61 +40,18 @@ public class CustomerController {
     @Autowired
     CityRepository cityRepository;
 
-//    DEPRECATED!
-//    @GetMapping(path = "/add")
-//    public String addCustomer(
-//            @RequestParam String firstname,
-//            @RequestParam String lastname,
-//            @RequestParam String email,
-//            @RequestParam String password,
-//            @RequestParam boolean loyalCustomer,
-//            @RequestParam boolean adminStatus,
-//            @RequestParam String address,
-//            @RequestParam String areaCode,
-//            @RequestParam String city
-//    ) {
-//        Customer customer = new Customer();
-//        customer.setFirstName(firstname);
-//        customer.setLastName(lastname);
-//        customer.setEmail(email);
-//        customer.setPassword(password);
-//        customer.setLoyalCustomer(loyalCustomer);
-//        customer.setAdminStatus(adminStatus);
-//        Address tempAddress = new Address();
-//        AreaCode tempAreaCode = new AreaCode();
-//        City tempCity = new City();
-//        if (cityRepository.findCityBycity(city) == null) {
-//            tempCity.setCity(city);
-//            cityRepository.save(tempCity);
-//        }
-//        if (areaCodeRepository.findAreaCodeByareaCode(areaCode) == null) {
-//            tempAreaCode.setAreaCode(areaCode);
-//            areaCodeRepository.save(tempAreaCode);
-//        }
-//        if (addressRepository.findAddressByAddress(address) == null) {
-//            tempAddress.setAddress(address);
-//            addressRepository.save(tempAddress);
-//        }
-//        customer.setAddress(addressRepository.findAddressByAddress(address));
-//        tempCity = cityRepository.findCityBycity(city);
-//        tempAreaCode = areaCodeRepository.findAreaCodeByareaCode(areaCode);
-//        tempAddress = addressRepository.findAddressByAddress(address);
-//        tempAreaCode.setCity(tempCity);
-//        tempAddress.setAreaCode(tempAreaCode);
-//        customer.setAddress(tempAddress);
-//        cityRepository.save(tempCity);
-//        areaCodeRepository.save(tempAreaCode);
-//        addressRepository.save(tempAddress);
-//        customerRepository.save(customer);
-//
-//        return String.format("Kunden %s %s has been added", firstname, lastname);
-//    }
-
     @PostMapping("/add")
-    public String addCustomerPost(@RequestBody CustomerDTO customerDTO) {
-        Customer customer = customerService.addCustomer(customerDTO);
-
-        return customerDTO.compareToCustomer(customer) ? "customer Added" : "customer not added";
+    public ResponseEntity addCustomerPost(@RequestBody CustomerDTO customerDTO) {
+        try {
+            customerService.addCustomer(customerDTO);
+            LOG.info("Customer added: " + customerDTO.getEmail());
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            LOG.error("Error creating user: " + e.getMessage());
+            return new ResponseEntity<>(
+                    "Error: " + e.getMessage(),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(path = "/findById")

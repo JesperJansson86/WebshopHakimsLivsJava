@@ -16,6 +16,8 @@ public class CustomerDTO {
     private String areaCode;
     private String city;
 
+
+
     public boolean compareToCustomer(Customer customer){
         return (
                 customer.getFirstName().equalsIgnoreCase(firstname) &&
