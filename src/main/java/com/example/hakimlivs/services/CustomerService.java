@@ -5,6 +5,7 @@ import com.example.hakimlivs.models.AreaCode;
 import com.example.hakimlivs.models.City;
 import com.example.hakimlivs.models.Customer;
 import com.example.hakimlivs.models.DTO.CustomerDTO;
+import com.example.hakimlivs.rabbitmq.RabbitSend;
 import com.example.hakimlivs.repositories.AddressRepository;
 import com.example.hakimlivs.repositories.AreaCodeRepository;
 import com.example.hakimlivs.repositories.CityRepository;
@@ -27,6 +28,8 @@ public class CustomerService {
     AreaCodeRepository areaCodeRepository;
     @Autowired
     CityRepository cityRepository;
+    @Autowired
+    RabbitSend rabbitSend;
 
     public Customer addCustomer(CustomerDTO customerDTO) {
         //MAPPING
@@ -83,8 +86,7 @@ public class CustomerService {
         areaCodeRepository.save(tempAreaCode);
         addressRepository.save(tempAddress);
         customerRepository.save(customer);
-
-        //TODO: Skicka mail
+        rabbitSend.sendmail(customer.getEmail(),"newaccount");
 
         return customer;
     }

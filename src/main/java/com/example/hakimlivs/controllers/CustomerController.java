@@ -5,6 +5,7 @@ import com.example.hakimlivs.models.AreaCode;
 import com.example.hakimlivs.models.City;
 import com.example.hakimlivs.models.Customer;
 import com.example.hakimlivs.models.DTO.CustomerDTO;
+import com.example.hakimlivs.rabbitmq.RabbitSend;
 import com.example.hakimlivs.repositories.AddressRepository;
 import com.example.hakimlivs.repositories.AreaCodeRepository;
 import com.example.hakimlivs.repositories.CityRepository;
@@ -40,12 +41,14 @@ public class CustomerController {
     @Autowired
     CityRepository cityRepository;
 
+
     @PostMapping("/add")
     public ResponseEntity addCustomerPost(@RequestBody CustomerDTO customerDTO) {
         try {
             customerService.addCustomer(customerDTO);
             LOG.info("Customer added: " + customerDTO.getEmail());
             return ResponseEntity.ok().build();
+
         } catch (IllegalArgumentException e) {
             LOG.error("Error creating user: " + e.getMessage());
             return new ResponseEntity<>(
