@@ -91,16 +91,17 @@ class CustomerControllerTest {
 
     private JSONObject generateCustomerBody() throws JSONException {
         JSONObject body = new JSONObject();
-        body.put(FIRST_NAME, FIRST_NAME + TEST_ID);
-        body.put(LAST_NAME, LAST_NAME + TEST_ID);
-        body.put(EMAIL, EMAIL + TEST_ID);
-        body.put(PASSWORD, PASSWORD + TEST_ID);
-        body.put(PHONE, PHONE + TEST_ID);
-        body.put(ADDRESS, ADDRESS + TEST_ID);
-        body.put(AREA_CODE, AREA_CODE + TEST_ID);
-        body.put(CITY, CITY + TEST_ID);
+        body.put("firstname", FIRST_NAME + TEST_ID);
+        body.put("lastname", LAST_NAME + TEST_ID);
+        body.put("email", EMAIL + TEST_ID);
+        body.put("password", PASSWORD + TEST_ID);
+        body.put("phone", PHONE + TEST_ID);
+        body.put("address", ADDRESS + TEST_ID);
+        body.put("areaCode", AREA_CODE + TEST_ID);
+        body.put("city", CITY + TEST_ID);
         return body;
     }
+
 
     private JSONObject getCreatedTestCustomer(String allUsersAsJsonArray) throws JSONException {
         JSONArray allUsers = new JSONArray(allUsersAsJsonArray);
