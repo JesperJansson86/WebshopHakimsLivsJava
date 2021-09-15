@@ -47,12 +47,12 @@ class CustomerControllerTest {
 
         //assert correct customer data
         assertNotNull(testCustomer);
-        assertEquals(FIRST_NAME + TEST_ID, testCustomer.getString("firstName")); //Change in CustomerDTO for consistency getters and Json keys
-        assertEquals(LAST_NAME + TEST_ID, testCustomer.getString("lastName")); //Same as above
-        assertEquals(EMAIL + TEST_ID, testCustomer.getString(EMAIL));
-        assertEquals(PHONE + TEST_ID, testCustomer.getString("phoneNumber")); //Same as above
-        assertNotNull(testCustomer.getString(ADDRESS));
-        assertNotNull(testCustomer.getString(PASSWORD));
+        assertEquals(FIRST_NAME , testCustomer.getString("firstName")); //Change in CustomerDTO for consistency getters and Json keys
+        assertEquals(LAST_NAME , testCustomer.getString("lastName")); //Same as above
+        assertEquals( TEST_ID+EMAIL , testCustomer.getString("email"));
+        assertEquals(PHONE , testCustomer.getString("phoneNumber")); //Same as above
+        assertNotNull(testCustomer.getString("address"));
+        assertNotNull(testCustomer.getString("password"));
         assertFalse(testCustomer.getBoolean(ADMIN_STATUS));
         assertFalse(testCustomer.getBoolean(LOYAL_CUSTOMER));
 
@@ -91,14 +91,14 @@ class CustomerControllerTest {
 
     private JSONObject generateCustomerBody() throws JSONException {
         JSONObject body = new JSONObject();
-        body.put("firstname", FIRST_NAME + TEST_ID);
-        body.put("lastname", LAST_NAME + TEST_ID);
-        body.put("email", EMAIL + TEST_ID);
-        body.put("password", PASSWORD + TEST_ID);
-        body.put("phone", PHONE + TEST_ID);
+        body.put("firstname", FIRST_NAME );
+        body.put("lastname", LAST_NAME );
+        body.put("email",   TEST_ID +EMAIL);
+        body.put("password", PASSWORD+ TEST_ID );
+        body.put("phone", PHONE );
         body.put("address", ADDRESS + TEST_ID);
-        body.put("areaCode", AREA_CODE + TEST_ID);
-        body.put("city", CITY + TEST_ID);
+        body.put("areaCode", AREA_CODE );
+        body.put("city", CITY );
         return body;
     }
 
@@ -107,7 +107,7 @@ class CustomerControllerTest {
         JSONArray allUsers = new JSONArray(allUsersAsJsonArray);
         for (int i = 0; i < allUsers.length() ; i++) {
             JSONObject user = allUsers.getJSONObject(i);
-            if (user.getString(EMAIL).endsWith(TEST_ID)) {
+            if (user.getString("email").startsWith(TEST_ID)) {
                 return user;
             }
         }
