@@ -70,6 +70,9 @@ public class CustomerController {
     //    @GetMapping(path = "/deleteById")
     @DeleteMapping(path = "/deleteById")
     public String deleteCustomerById(@RequestParam Long id) {
+        Customer customer = customerRepository.findById(id).get();
+        customer.setAddress(null);
+        customerRepository.save(customer);
         customerRepository.deleteById(id);
         return String.format("Customer with id: %s has been deleted", id);
     }
