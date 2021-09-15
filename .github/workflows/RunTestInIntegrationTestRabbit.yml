@@ -31,28 +31,18 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-  #  env:
-   #   DB_DATABASE: db_hibernate
-    #  DB_USER: hibernate@127.0.0.1
-     # DB_PASSWORD: admin  
-   #  Steps represent a sequence of tasks that will be executed as part of the job
-    
+
     steps:
-      
-      
-      
-      
-    #  - uses: actions/checkout@v1
-    #  - run: mysql -h 172.18.0.1 --port 3306 -u root -ppassword -e 'GRANT ALL PRIVILEGES ON db_hibermate.* TO 'root'@'%';'
+
      
-     
-     
-     
-    #  - name: Set up MySQL
-     #   run: |
-      #    sudo /etc/init.d/mysql start
-       #   mysql -e 'CREATE DATABASE db_hibernate;'
-    #   Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: getong/rabbitmq-action@v1.2
+        with:
+          rabbitmq version: '3.8.2-management-alpine'
+          host port: 5672
+          rabbitmq user: 'guest'
+          rabbitmq password: 'guest'
+        #  rabbitmq vhost: ''
+
       - name: Checkout Code
         uses: actions/checkout@v2
         
