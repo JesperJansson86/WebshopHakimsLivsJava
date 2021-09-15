@@ -10,11 +10,15 @@ import com.example.hakimlivs.repositories.AreaCodeRepository;
 import com.example.hakimlivs.repositories.CityRepository;
 import com.example.hakimlivs.repositories.CustomerRepository;
 import com.example.hakimlivs.security.SecurityConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
+    public static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
+
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
@@ -26,6 +30,10 @@ public class CustomerService {
 
     public Customer addCustomer(CustomerDTO customerDTO) {
         //MAPPING
+        TextValidator.validateCustomer(customerDTO);
+
+        if(findCustomerByEmail(customerDTO.getEmail()) != null) throw new IllegalArgumentException("Email is in use");
+
         Customer customer = new Customer();
         customer.setFirstName(customerDTO.getFirstname());
         customer.setLastName(customerDTO.getLastname());
@@ -75,6 +83,8 @@ public class CustomerService {
         areaCodeRepository.save(tempAreaCode);
         addressRepository.save(tempAddress);
         customerRepository.save(customer);
+
+        //TODO: Skicka mail
 
         return customer;
     }
