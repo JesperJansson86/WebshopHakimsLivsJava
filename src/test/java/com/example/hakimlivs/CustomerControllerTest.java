@@ -25,11 +25,11 @@ class CustomerControllerTest {
     private static final String TEST_ID = "" + System.currentTimeMillis();
     private static final String FIRST_NAME = "firstname";
     private static final String LAST_NAME = "lastname";
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
-    private static final String PHONE = "phone";
+    private static final String EMAIL = "email@email.com";
+    private static final String PASSWORD = "Password1!";
+    private static final String PHONE = "0789789";
     private static final String ADDRESS = "address";
-    private static final String AREA_CODE = "areaCode";
+    private static final String AREA_CODE = "15263";
     private static final String CITY = "city";
     private static final String ADMIN_STATUS = "adminStatus";
     private static final String LOYAL_CUSTOMER = "loyalCustomer";
