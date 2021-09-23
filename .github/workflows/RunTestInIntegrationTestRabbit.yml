@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Automatiska tester när  S4-IntegrationTestRabbit pushas.
+name: Automatiska tester när  S4-IntegrationTestRabbit pushas
 
 # Controls when the workflow will run
 on:
